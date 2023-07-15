@@ -39,11 +39,11 @@ void	insertstack(int a, stack *s)
 	}
 	else
 	{
-		s->top->next = n;
-		n->prev = s->top;
-		n->next = s->bottom;
 		s->bottom->prev = n;
-		s->top = n;
+		n->next = s->bottom;
+		n->prev = s->top;
+		s->top->next = n;
+		s->bottom = n;
 		s->size++;
 	}
 }
@@ -63,6 +63,17 @@ int	pop(stack *s)
 	s->size--;
 	free(temp);
 	return (value);
+}
+
+void sa(stack *a)
+{
+	node *top;
+
+	if(a->size < 2)
+		return ;
+	top = a->top;
+	top->prev
+	
 }
 
 void	pa(stack *b, stack *a)
@@ -129,32 +140,30 @@ void	rrr(stack *a, stack *b)
 	rrb(b);
 }
 
-
-
-
 int main(int ac, char **av){
 	stack	*a;
 	stack	*b;
-	int		n;
 
 	a = init_stack();
 	b = init_stack();
 	if (!a || !b)
 		return (0);
 	for (int i = 1; i < ac; i++)
-		insertstack(n, atoi(av[i]));
-	pb(a, b);
-	pb(a, b);
-	pb(a, b);
-	pb(a, b);
-	rr(a, b);
-	rr(a, b);
+		insertstack(atoi(av[i]), a);
+	// pb(a, b);
+	// pb(a, b);
+	// pb(a, b);
+	// pb(a, b);
+	// rr(a, b);
+	// rr(a, b);
 	printf("%d", pop(a));
 	printf("%d", pop(a));
 	printf("%d", pop(a));
 	printf("%d\n", pop(a));
-	printf("%d", pop(b));
-	printf("%d", pop(b));
-	printf("%d", pop(b));
-	printf("%d", pop(b));
+	printf("%d\n", pop(a));
+	printf("%d\n", pop(a));
+	// printf("%d", pop(b));
+	// printf("%d", pop(b));
+	// printf("%d", pop(b));
+	// printf("%d", pop(b));
 }
