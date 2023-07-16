@@ -53,27 +53,83 @@ int	pop(stack *s)
 	int		value;
 	node	*temp;
 
-	temp = s->top;
-	value = temp->value;
 	if (s->size == 0)
 		return (-1);
-	temp->next->prev = temp->prev;
-	temp->prev->next = temp->next;
-	s->top = temp->prev;
+	temp = s->top;
+	value = temp->value;
 	s->size--;
+	if(s->size == 1)
+	{
+		temp->next->prev = 0;
+		temp->prev->next = 0;
+	}
+	else
+	{
+		temp->next->prev = temp->prev;
+		temp->prev->next = temp->next;
+	}
+	s->top = temp->prev;
 	free(temp);
 	return (value);
 }
 
-void sa(stack *a)
+int	peek(stack *s)
 {
-	node *top;
+	int		value;
 
-	if(a->size < 2)
-		return ;
-	top = a->top;
-	top->prev
-	
+	if (s->size == 0)
+		return (-1);
+	value = s->top->value;
+	return (value);
+}
+
+
+void sa(stack *s)
+{
+    if (s->size < 2)
+        return;
+
+    node *top = s->top;
+    node *second = s->top->prev;
+
+    top->prev = second->prev;
+    second->prev->next = top;
+
+    second->next = top->next;
+    top->next->prev = second;
+
+    top->next = second;
+    second->prev = top;
+
+    s->top = second;
+
+    // 스택의 맨 아래 노드인 경우, bottom도 변경
+    if (s->size == 2)
+        s->bottom = top;
+}
+
+void sb(stack *s)
+{
+    if (s->size < 2)
+        return;
+
+    node *top = s->top;
+    node *second = s->top->prev;
+
+    top->prev = second->prev;
+    second->prev->next = top;
+
+    second->next = top->next;
+    top->next->prev = second;
+
+    top->next = second;
+    second->prev = top;
+
+    s->top = second;
+
+    // 스택의 맨 아래 노드인 경우, bottom도 변경
+    if (s->size == 2)
+        s->bottom = top;
 }
 
 void	pa(stack *b, stack *a)
@@ -147,23 +203,8 @@ int main(int ac, char **av){
 	a = init_stack();
 	b = init_stack();
 	if (!a || !b)
-		return (0);
+		exit(0);
 	for (int i = 1; i < ac; i++)
 		insertstack(atoi(av[i]), a);
-	// pb(a, b);
-	// pb(a, b);
-	// pb(a, b);
-	// pb(a, b);
-	// rr(a, b);
-	// rr(a, b);
-	printf("%d", pop(a));
-	printf("%d", pop(a));
-	printf("%d", pop(a));
-	printf("%d\n", pop(a));
-	printf("%d\n", pop(a));
-	printf("%d\n", pop(a));
-	// printf("%d", pop(b));
-	// printf("%d", pop(b));
-	// printf("%d", pop(b));
-	// printf("%d", pop(b));
+	
 }
