@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include "pushswap.h"
 
 stack *init_stack()
@@ -53,17 +52,17 @@ int	pop(stack *s)
 	int		value;
 	node	*temp;
 
-	if (s->size == 0)
+	if(s->size == 0)
 		return (-1);
 	temp = s->top;
 	value = temp->value;
 	s->size--;
 	if(s->size == 1)
 	{
-		temp->next->prev = 0;
+		temp->prev->prev = 0;
 		temp->prev->next = 0;
 	}
-	else
+	else if (s->size > 1)
 	{
 		temp->next->prev = temp->prev;
 		temp->prev->next = temp->next;
@@ -88,7 +87,6 @@ void sa(stack *s)
 {
     if (s->size < 2)
         return;
-
     node *top = s->top;
     node *second = s->top->prev;
 
@@ -202,9 +200,25 @@ int main(int ac, char **av){
 
 	a = init_stack();
 	b = init_stack();
-	if (!a || !b)
+	if ((!a || !b) || ac < 2)
 		exit(0);
-	for (int i = 1; i < ac; i++)
-		insertstack(atoi(av[i]), a);
-	
+	if(!check(av, a))
+	{
+		printf("error\n");
+		exit(0);
+	}
+	pb(a, b);
+	pb(a, b);
+	pb(a, b);
+	pb(a, b);
+	printf("%d\n", pop(a));
+	printf("%d\n", pop(a));
+	printf("%d\n", pop(a));
+	printf("%d\n", pop(a));
+	printf("%d\n", pop(b));
+	printf("%d\n", pop(b));
+	printf("%d\n", pop(b));
+	printf("%d\n", pop(b));
+	free(a);
+	free(b);
 }
