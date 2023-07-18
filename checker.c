@@ -223,7 +223,11 @@ void	rrr(stack *a, stack *b)
 int main(int ac, char **av){
 	stack	*a;
 	stack	*b;
+	int		*mergeSize;
+	int		*triShape;
+	int		len;
 
+	len = 0;
 	a = init_stack();
 	b = init_stack();
 	if ((!a || !b) || ac < 2)
@@ -233,5 +237,9 @@ int main(int ac, char **av){
 		printf("error\n");
 		exit(0);
 	}
-	
+	mergeSize_and_triShape(&mergeSize, &triShape, &len, a->size);
+	for(int i = 0; i < len; i++){
+		printf("%d", mergeSize[i]);
+	}
+	// make_tri(mergeSize, triShape, len);
 }

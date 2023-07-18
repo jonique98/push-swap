@@ -25,36 +25,63 @@ int *make_mergesize_arr(int *mergeSize, int *arr, int *len)
     return returnArr;
 }
 
-int *hi(int *triShape, int *trilen)
+int *make_trishape_arr(int *triShape, int *trilen, int *one, int *zero)
 {
-    
+    int i;
+    int j;
+    int k;
+    int *returnArr;
+
+    i = 0;
+    j = 0;
+    returnArr = malloc(sizeof(int)*(*trilen * 3));
+    while(i < *trilen)
+    {
+        k = 0;
+        if(triShape[i] == 1)
+        {
+            while (k < 3)
+                returnArr[j++] = one[k++];
+        }
+        else if(triShape[i] == 0)
+        {
+             while (k < 3)
+                returnArr[j++] = zero[k++];
+        }
+        i++;
+    }
+    *trilen *= 3;
+    return returnArr;
 }
 
-void make_trishape_arr(int size, int **triShape, int *trilen)
+int *init_trishape()
 {
-    int arr[3];
+    int *arr;
 
-    arr[0] = size / 3;
-    arr[1] = (size - arr[0]) / 2;
-    arr[2] = size - arr[0] - arr[1];
+    arr = malloc(sizeof(int) * 3);
+    arr[0] = 1;
+    arr[1] = 0;
+    arr[2] = 0;
+    return arr;
+}
 
-    if(arr[0] > 5)
-    {
-        *trilen = *trilen + 3;
-        merge(arr[0], triShape, trilen);
+void make_triShape(int **triShape, int *trilen)
+{
+    int one[3];
+    int zero[3];
+    
+    one[0] = 1;
+    one[1] = 0;
+    one[2] = 0;
+    zero[0] = 1;
+    zero[1] = 1;
+    zero[2] = 0;
+    if (!(*triShape)){
+       *triShape = init_trishape();
+       *trilen = 3;
+        return ;
     }
-    if(arr[1] > 5)
-    {
-        *trilen = *trilen + 3;
-        merge(arr[1], triShape, trilen);
-    }
-    if(arr[2] > 5)
-    {
-        *trilen = *trilen + 3;
-        merge(arr[2], triShape, trilen);
-    }
-
-    return ;
+    *triShape = make_trishape_arr(*triShape, trilen, one, zero);
 }
 
 void merge(int size, int **mergeSize, int *len)
@@ -69,32 +96,26 @@ void merge(int size, int **mergeSize, int *len)
 
     if(arr[0] > 5)
         merge(arr[0], mergeSize, len);
-    if(arr[1] > 5)
+    if(arr[0] > 5 && arr[1] > 5)
         merge(arr[1], mergeSize, len);
-    if(arr[2] > 5)
+    if(arr[0] > 5 && arr[1] > 5 && arr[2] > 5)
         merge(arr[2], mergeSize, len);
-    if(arr[0] <=5 && arr[1] <=5 && arr[2] <= 5)
+    if(arr[0] <=5 || arr[1] <= 5 || arr[2] <= 5)
         *mergeSize = make_mergesize_arr(*mergeSize, arr, len);
     return ;
 }
 
 
 
-int main(){
-    int *a;
-    int b[3];
-    int len;
-    len = 0;
+int mergeSize_and_triShape(int **mergeSize, int **triShape, int *len, int size){
     int triLen;
-    triLen = 0;
-    a = 0;
-    b[0] = 1;
-    b[1] = 0;
-    b[2] = 0;
 
-    merge(34, &a ,&len);
-    make_trishape_arr(34, &b, &triLen);
-    printf("%d\n", len);
-    for(int i = 0; i < len; i++)
-        printf("%d ", a[i]);
+    triLen = 0;
+    *mergeSize = 0;
+    *triShape = 0;
+
+    merge(316, mergeSize ,len);
+    while(triLen != *len)
+        make_triShape(triShape, &triLen);
+    return (0);
 }

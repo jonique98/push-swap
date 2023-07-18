@@ -33,4 +33,15 @@ int ft_free(void *p1, void *p2);
 void	insertFirst(int a, stack *s);
 
 
+int *make_mergesize_arr(int *mergeSize, int *arr, int *len);
+
+int *make_trishape(int *triShape, int *trilen, int *one, int *zero);
+int *init_trishape();
+
+void make_triShape(int **triShape, int *trilen);
+
+void merge(int size, int **mergeSize, int *len);
+
+int mergeSize_and_triShape(int **mergeSize, int **triShape, int *len, int size);
+
 #endif
