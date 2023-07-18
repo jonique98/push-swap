@@ -22,7 +22,7 @@ void	init_node(int value, node *node)
 }
 
 
-void	insertstack(int a, stack *s)
+void	insertFirst(int a, stack *s)
 {
 	node	*n;
 
@@ -46,6 +46,32 @@ void	insertstack(int a, stack *s)
 		s->size++;
 	}
 }
+
+void	insert(int a, stack *s)
+{
+	node	*n;
+
+	n = malloc(sizeof(node));
+	if (!n)
+		return ;
+	init_node(a, n);
+	if (s->size == 0)
+	{
+		s->top = n;
+		s->bottom = n;
+		s->size++;
+	}
+	else
+	{
+		s->top->next = n;
+		n->prev = s->top;
+		n->next = s->bottom;
+		s->bottom->prev = n;
+		s->top = n;
+		s->size++;
+	}
+}
+
 
 int	pop(stack *s)
 {
@@ -72,13 +98,13 @@ int	pop(stack *s)
 	return (value);
 }
 
-int	peek(stack *s)
+int	peekTop(node *n)
 {
 	int		value;
 
-	if (s->size == 0)
+	if (!n)
 		return (-1);
-	value = s->top->value;
+	value = n->value;
 	return (value);
 }
 
@@ -137,7 +163,7 @@ void	pa(stack *b, stack *a)
 	value = pop(b);
 	if (value == -1)
 		return ;
-	insertstack(value, a);
+	insert(value, a);
 }
 
 void	pb(stack *a, stack *b)
@@ -147,7 +173,7 @@ void	pb(stack *a, stack *b)
 	value = pop(a);
 	if (value == -1)
 		return ;
-	insertstack(value, b);
+	insert(value, b);
 }
 
 void	ra(stack *a)
@@ -207,18 +233,5 @@ int main(int ac, char **av){
 		printf("error\n");
 		exit(0);
 	}
-	pb(a, b);
-	pb(a, b);
-	pb(a, b);
-	pb(a, b);
-	printf("%d\n", pop(a));
-	printf("%d\n", pop(a));
-	printf("%d\n", pop(a));
-	printf("%d\n", pop(a));
-	printf("%d\n", pop(b));
-	printf("%d\n", pop(b));
-	printf("%d\n", pop(b));
-	printf("%d\n", pop(b));
-	free(a);
-	free(b);
+	
 }

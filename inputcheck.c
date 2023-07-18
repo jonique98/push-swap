@@ -46,11 +46,12 @@ int num_len(char *arr)
 int check(char **av, stack *a){
     int i;
     char *arr;
-    int *num;
+    long long *num;
 
     i = 1;
     arr = 0;
-    while(av[i]){
+    while(av[i])
+    {
         arr = ft_strjoin(arr, av[i], 0, 0);
         if(!arr)
             return (ft_free(arr, num));
@@ -58,14 +59,14 @@ int check(char **av, stack *a){
     }
     if(!num_check(arr))
         return (ft_free(arr, 0));
-    num = malloc(sizeof(int) * num_len(arr));
+    num = malloc(sizeof(long long) * num_len(arr));
     if(!num)
         return (ft_free(arr, num));
     if(!duplicate_check(arr, num))
         return (ft_free(arr, num));
     i = -1;
     while(++i < num_len(arr))
-        insertstack(num[i], a);
+        insertFirst(num[i], a);
     ft_free(arr, num);
     return (1);
 }
@@ -77,20 +78,20 @@ int ft_free(void *p1, void *p2)
     return 0;
 }
 
-int makeNum(char **arr)
+long makeNum(char **arr)
 {
-    int n;
+    long long n;
 
     n = 0;
-    while(*(*arr) && isNum(*(*arr)))
-        {
-            n = n * 10 + *(*arr) - '0';
-            (*arr)++;
-        }
+    while (*(*arr) && isNum(*(*arr)))
+    {
+        n = n * 10 + *(*arr) - '0';
+        (*arr)++;
+    }
     return (n);
 }
 
-int duplicate_check(char *arr, int *num)
+int duplicate_check(char *arr, long long *num)
 {
     int i;
     int j;
@@ -104,6 +105,8 @@ int duplicate_check(char *arr, int *num)
         if(*arr == '\0')
             return(1);
         num[++i] = makeNum(&arr);
+        if(num[i] > 2147483647)
+            return (0);
         while(++j < i)
         {
             if (num[j] == num[i])
@@ -127,7 +130,8 @@ int num_check(char *arr)
     return (1);
 }
 
-int ft_strlen(char *s){
+int ft_strlen(char *s)
+{
     int i;
 
     i = 0;
