@@ -14,6 +14,29 @@ stack *init_stack()
 	return (s);
 }	
 
+stacks *init_stacks()
+{
+	stacks *st;
+	st = malloc(sizeof(stacks));
+	st->a = init_stack();
+	st->b = init_stack();
+
+	return st;
+}
+
+sortinfo *init_sortinfo()
+{
+	sortinfo *si;
+
+	si = malloc(sizeof(sortinfo));
+	si->len = 0;
+	si->mergeSize = 0;
+	si->triShape = 0;
+
+	return (si);
+}
+
+
 void	init_node(int value, node *node)
 {
 	node->value = value;
@@ -80,13 +103,14 @@ int	pop(stack *s)
 
 	if(s->size == 0)
 		return (-1);
+
 	temp = s->top;
 	value = temp->value;
 	s->size--;
 	if(s->size == 1)
 	{
-		temp->prev->prev = 0;
-		temp->prev->next = 0;
+		temp->prev->prev = temp->prev;
+		temp->prev->next = temp->next;
 	}
 	else if (s->size > 1)
 	{
@@ -109,137 +133,34 @@ int	peekTop(node *n)
 }
 
 
-void sa(stack *s)
-{
-    if (s->size < 2)
-        return;
-    node *top = s->top;
-    node *second = s->top->prev;
 
-    top->prev = second->prev;
-    second->prev->next = top;
-
-    second->next = top->next;
-    top->next->prev = second;
-
-    top->next = second;
-    second->prev = top;
-
-    s->top = second;
-
-    // 스택의 맨 아래 노드인 경우, bottom도 변경
-    if (s->size == 2)
-        s->bottom = top;
-}
-
-void sb(stack *s)
-{
-    if (s->size < 2)
-        return;
-
-    node *top = s->top;
-    node *second = s->top->prev;
-
-    top->prev = second->prev;
-    second->prev->next = top;
-
-    second->next = top->next;
-    top->next->prev = second;
-
-    top->next = second;
-    second->prev = top;
-
-    s->top = second;
-
-    // 스택의 맨 아래 노드인 경우, bottom도 변경
-    if (s->size == 2)
-        s->bottom = top;
-}
-
-void	pa(stack *b, stack *a)
-{
-	int	value;
-
-	value = pop(b);
-	if (value == -1)
-		return ;
-	insert(value, a);
-}
-
-void	pb(stack *a, stack *b)
-{
-	int	value;
-
-	value = pop(a);
-	if (value == -1)
-		return ;
-	insert(value, b);
-}
-
-void	ra(stack *a)
-{
-	if (a->size == 0)
-		return ;
-	a->top = a->top->prev;
-	a->bottom = a->bottom->prev;
-}
-
-void	rb(stack *b)
-{
-	if (b->size == 0)
-		return ;
-	b->top = b->top->prev;
-	b->bottom = b->bottom->prev;
-}
-
-void	rra(stack *a)
-{
-	if (a->size == 0)
-		return ;
-	a->top = a->top->next;
-	a->bottom = a->bottom->next;
-}
-
-void	rrb(stack *b)
-{
-	if (b->size == 0)
-		return ;
-	b->top = b->top->next;
-	b->bottom = b->bottom->next;
-}
-
-void	rr(stack *a, stack *b)
-{
-	ra(a);
-	rb(b);
-}
-
-void	rrr(stack *a, stack *b)
-{
-	rra(a);
-	rrb(b);
-}
 
 int main(int ac, char **av){
-	stack	*a;
-	stack	*b;
-	int		*mergeSize;
-	int		*triShape;
-	int		len;
+	stacks *st;
+	sortinfo *si;
 
-	len = 0;
-	a = init_stack();
-	b = init_stack();
-	if ((!a || !b) || ac < 2)
+	si = init_sortinfo();
+	st = init_stacks();
+		
+	if ((!st->a || !st->b) || ac < 2)
 		exit(0);
-	if(!check(av, a))
+	if(!check(av, st))
 	{
 		printf("error\n");
 		exit(0);
 	}
-	mergeSize_and_triShape(&mergeSize, &triShape, &len, a->size);
-	// for(int i = 0; i < len; i++){
-		// printf("%d", mergeSize[i]);
+	// for(int i = 0; i < 9; i++){
+	// 	int a = pop(st->a) + '0';
+	// 	write(1, &a, 2);
 	// }
-	make_tri(mergeSize, triShape, len, a, b);
+	mergeSize_and_triShape(st->a->size, si);
+	make_tri(si, st);
+	move(si, st);
+	while(st->b->size != 0){
+		printf("%d", pop(st->b));
+	}
+	printf("\n");
+	while(st->a->size != 0){
+		printf("%d", pop(st->a));
+	}
 }

@@ -2,8 +2,6 @@
 #include <stdio.h>
 #include "pushswap.h"
 
-
-
 char	*ft_strjoin(char *s1, char *s2, int i, int j);
 int ft_atoi(char *av);
 int isNum(char av);
@@ -43,11 +41,12 @@ int num_len(char *arr)
     return (cnt);
 }
 
-int check(char **av, stack *a){
+int check(char **av, stacks *stacks){
     int i;
     char *arr;
     long long *num;
 
+    num = 0;
     i = 1;
     arr = 0;
     while(av[i])
@@ -66,7 +65,7 @@ int check(char **av, stack *a){
         return (ft_free(arr, num));
     i = -1;
     while(++i < num_len(arr))
-        insertFirst(num[i], a);
+        insertFirst(num[i], stacks->a);
     ft_free(arr, num);
     return (1);
 }
