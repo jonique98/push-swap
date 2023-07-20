@@ -238,8 +238,8 @@ int main(int ac, char **av){
 		exit(0);
 	}
 	mergeSize_and_triShape(&mergeSize, &triShape, &len, a->size);
-	for(int i = 0; i < len; i++){
-		printf("%d", mergeSize[i]);
-	}
-	// make_tri(mergeSize, triShape, len);
+	// for(int i = 0; i < len; i++){
+		// printf("%d", mergeSize[i]);
+	// }
+	make_tri(mergeSize, triShape, len, a, b);
 }

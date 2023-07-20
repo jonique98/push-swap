@@ -13,7 +13,6 @@ int meka_tri(int *mergeSize, int *triShape, int len, stack *a, stack*b)
         up = triShape[i];
         while (j < size)
         {
-            
         }
     }
 }
