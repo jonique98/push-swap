@@ -1,5 +1,108 @@
 #include "pushswap.h"
 
+#include "pushswap.h"
+
+void swap(stack *s)
+{
+    if (s->size < 2)
+        return;
+    node *top = s->top;
+    node *second = s->top->prev;
+
+    top->prev = second->prev;
+    second->prev->next = top;
+
+    second->next = top->next;
+    top->next->prev = second;
+
+    top->next = second;
+    second->prev = top;
+
+    s->top = second;
+
+    // 스택의 맨 아래 노드인 경우, bottom도 변경
+    if (s->size == 2)
+        s->bottom = top;
+}
+
+void	push(stack *a, stack *b)
+{
+	int	value;
+
+	value = pop(a);
+	if (value == -1)
+		return ;
+	insert(value, b);
+}
+
+void	reverse(stack *a)
+{
+	if (a->size == 0)
+		return ;
+	a->top = a->top->prev;
+	a->bottom = a->bottom->prev;
+}
+
+
+void	rreverse(stack *a)
+{
+	if (a->size == 0)
+		return ;
+	a->top = a->top->next;
+	a->bottom = a->bottom->next;
+}
+
+void	rr(stack *a, stack *b)
+{
+	ra(a);
+	rb(b);
+}
+
+void	rrr(stack *a, stack *b)
+{
+	rra(a);
+	rrb(b);
+}
+
+
+int *resetmergeSize(sortinfo *si){
+    int *arr;
+    int i = 0;
+    int j = 0;
+
+    arr = malloc(sizeof(int) * si->len / 3);
+    while (i < si->len)
+    {
+        arr[j] = si->mergeSize[i] + si->mergeSize[i + si->len / 3] + si->mergeSize[si->len - i - 1];
+        j++;
+        i+=3;
+    }
+    return arr;
+}
+
+int *resettriShape(sortinfo *si){
+    int *arr;
+    int i =0;
+    int j = 0;
+
+    arr = malloc(sizeof(int) * si->len / 3);
+
+    while (i < si->len)
+    {
+        if(si->triShape[i] == 1 && (si->triShape[i+1] == 0) && (si->triShape[i+2] == 0))
+        {
+            arr[j] = 1;
+            j++;
+        }
+        else if (si->triShape[i] == 1 && (si->triShape[i+1] == 1) && (si->triShape[i+2] == 0))
+        {
+            arr[j] = 1;
+            j++;
+        }
+        i+=3;
+    }
+}
+
 void move(sortinfo *sortinfo, stacks *stacks)
 {
     int len;
@@ -10,14 +113,25 @@ void move(sortinfo *sortinfo, stacks *stacks)
     size = 0;
     len = 0;
 
-    len = sortinfo->len / 3;
-    while (++i < len)
-        size += sortinfo->mergeSize[i];
-    i = -1;
-    while (++i < size){
-        pa(stacks->b, stacks->a);
+    while (is_sorting(stacks->a))
+    {
+        len = sortinfo->len / 3;
+        while (++i < len)
+            size += sortinfo->mergeSize[i];
+        i = -1;
+        if(stacks->a->size == 0)
+        {
+            while (++i < size)
+                pa(stacks->b, stacks->a);
+        }
+        else
+            pa(stacks->b, stacks->a);
+        }
+        realsort3(stacks, sortinfo);
+        sortinfo->triShape = resettriShape(sortinfo);
+        sortinfo->mergeSize = resetmergeSize(sortinfo);
+        sortinfo->len = sortinfo->len / 3;
     }
-    realsort3(stacks, sortinfo);
 }
 
 void realsort3(stacks *stacks, sortinfo *sortinfo)

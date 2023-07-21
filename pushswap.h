@@ -28,6 +28,13 @@ typedef struct _stacks{
     stack *b;
 }stacks;
 
+typedef struct _sortnode{
+    int size1;
+    int size2;
+    int size3;
+    int shape;
+}sortsize;
+
 void    sa(stack *s);
 void    sb(stack *s);
 void	pa(stack *b, stack *a);
@@ -50,9 +57,7 @@ void lowerSort(node *at, node *bb, node *ab, stacks *stacks);
 void sort3(stacks *stacks, int shape);
 void sorting(int size, int shape, stacks *stacks);
 
-
 void move(sortinfo *sortinfo, stacks *stacks);
-
 void	insert(int a, stack *s);
 int	pop(stack *s);
 int	peekTop(node *n);
@@ -74,5 +79,14 @@ int *make_trishape_arr(int *triShape, int len, int *one, int *zero);
 void make_triShape(int len, sortinfo *sortinfo);
 int *init_trishape();
 int mergeSize_and_triShape(int size, sortinfo *sortinfo);
+
+void move(sortinfo *sortinfo, stacks *stacks);
+void realsort3(stacks *stacks, sortinfo *sortinfo);
+void moveMaxvalue(stacks *stacks,  sortsize *ss);
+void moveMinvalue(stacks *stacks,  sortsize *ss);
+void moveupper2(stacks *stacks,  sortsize *ss);
+void movelower2(stacks *stacks,  sortsize *ss);
+void realupperSort(stacks *stacks, sortsize *ss);
+
 
 #endif

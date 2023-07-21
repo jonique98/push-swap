@@ -21,7 +21,7 @@ node *max(node *a, node *b, node *c)
 {
     node *max;
 
-    if(a->value > b->value)
+    if(a != 0 && a->value > b->value)
         max = a;
     else
         max = b;
@@ -35,7 +35,7 @@ node *min(node *a, node *b, node *c)
 {
     node *min;
 
-    if(a->value < b->value)
+    if(a != 0 && a->value < b->value)
         min = a;
     else
         min = b;
@@ -194,6 +194,26 @@ void sort3(stacks *stacks, int shape)
     }
 }
 
+void sort4to5(stacks *stacks, int shape)
+{
+    node *at;
+    node *bb;
+    node *ab;
+
+    pb(stacks->a, stacks->b);
+    rb(stacks->b);
+
+    at = stacks->a->top;
+    bb = stacks->b->bottom;
+    ab = stacks->a->bottom;
+    if (shape == 1){
+        upperSort4to5(at, bb, ab, stacks);
+    }
+    else if (shape == 0){
+        lowerSort4to5(at,bb,ab,stacks);
+    }
+}
+
 void sorting(int size, int shape, stacks *stacks)
 {
     int     i;
@@ -201,8 +221,8 @@ void sorting(int size, int shape, stacks *stacks)
     i = 0;
     if (size == 3)
         sort3(stacks, shape);
-    // else if (size >= 4 && size <= 5)
-    //     sort4to5(stacks, shape);
+    else if (size >= 4 && size <= 5)
+        sort4to5(stacks, shape);
     // else if (size == 6)
     //     sort6(stacks, shape);
 }

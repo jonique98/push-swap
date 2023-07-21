@@ -149,18 +149,13 @@ int main(int ac, char **av){
 		printf("error\n");
 		exit(0);
 	}
-	// for(int i = 0; i < 9; i++){
-	// 	int a = pop(st->a) + '0';
-	// 	write(1, &a, 2);
-	// }
 	mergeSize_and_triShape(st->a->size, si);
 	make_tri(si, st);
+	// for(int i = 0; i < 9; i++){
+	// 	printf("%d\n", pop(st->b));
+	// }
 	move(si, st);
-	while(st->b->size != 0){
-		printf("%d", pop(st->b));
-	}
-	printf("\n");
-	while(st->a->size != 0){
-		printf("%d", pop(st->a));
+	for(int i = 0; i < 9; i++){
+		printf("%d\n", pop(st->a));
 	}
 }

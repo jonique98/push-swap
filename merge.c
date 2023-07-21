@@ -51,7 +51,8 @@ void make_triShape(int len, sortinfo *sortinfo)
     zero[0] = 1;
     zero[1] = 1;
     zero[2] = 0;
-    if (len == 0){
+    if (len == 0)
+    {
         sortinfo->triShape = init_trishape();
        return ;
     }
