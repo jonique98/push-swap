@@ -26,38 +26,47 @@ typedef struct _sortinfo{
 typedef struct _stacks{
     stack *a;
     stack *b;
+    int     cnt;
 }stacks;
 
 typedef struct _sortnode{
     int size1;
     int size2;
     int size3;
+    stack *target;
+    stack *src;
     int shape;
 }sortsize;
 
-void    sa(stack *s);
-void    sb(stack *s);
-void	pa(stack *b, stack *a);
-void	pb(stack *a, stack *b);
-void	ra(stack *a);
-void	rb(stack *b);
-void	rra(stack *a);
-void	rrb(stack *b);
-void	rr(stack *a, stack *b);
-void	rrr(stack *a, stack *b);
+void sort3(sortsize *ss, int shape, stacks *stacks);
+void sort4(sortsize *ss, int shape, stacks *stacks);
+void sort5(sortsize *ss, int shape, stacks *stacks);
+
+void    swap(stack *s, stacks *stacks);
+void	push(stack *a, stack *b, stacks *stacks);
+void	reverse(stack *a, stacks *stacks);
+void	rreverse(stack *a, stacks *stacks);
+void	rr(stack *a, stack *b, stacks *stacks);
+void	rrr(stack *a, stack *b, stacks *stacks);
+int     peek(node *a);
+
+int *resetmergeSize(sortinfo *si);
+int *resettriShape(sortinfo *si);
+
+sortsize *init_sortsize(stacks *stacks, int a);
+int is_sorting(stack *a);
+void switchsortsize(sortsize *ss, stacks *stacks);
+
+void move(sortinfo *sortinfo, stacks *stacks, int a);
+void realsort(sortinfo *sortinfo, sortsize *ss, stacks *stacks);
+void reallowerSort(sortsize *ss, stacks *stacks);
+void realupperSort(sortsize *ss, stacks *stacks);
 
 node *max(node *a, node *b, node *c);
 node *min(node *a, node *b, node *c);
-int make_tri(sortinfo *sortinfo, stacks *stacks);
-void sort_atop_abottom(node *at, node *ab, stacks *stacks, int shape);
-void sort_atop_bbottom(node *at, node *bb, stacks *stacks, int shape);
-void sort_abottom_bbottom(node *ab, node *bb, stacks *stacks, int shape);
-void upperSort(node *at, node *bb, node *ab, stacks *stacks);
-void lowerSort(node *at, node *bb, node *ab, stacks *stacks);
-void sort3(stacks *stacks, int shape);
-void sorting(int size, int shape, stacks *stacks);
+void make_tri(sortinfo *sortinfo, stacks *stacks);
+void sorting(int size, int shape, stacks *stacks, sortsize *ss);
 
-void move(sortinfo *sortinfo, stacks *stacks);
 void	insert(int a, stack *s);
 int	pop(stack *s);
 int	peekTop(node *n);
@@ -79,14 +88,5 @@ int *make_trishape_arr(int *triShape, int len, int *one, int *zero);
 void make_triShape(int len, sortinfo *sortinfo);
 int *init_trishape();
 int mergeSize_and_triShape(int size, sortinfo *sortinfo);
-
-void move(sortinfo *sortinfo, stacks *stacks);
-void realsort3(stacks *stacks, sortinfo *sortinfo);
-void moveMaxvalue(stacks *stacks,  sortsize *ss);
-void moveMinvalue(stacks *stacks,  sortsize *ss);
-void moveupper2(stacks *stacks,  sortsize *ss);
-void movelower2(stacks *stacks,  sortsize *ss);
-void realupperSort(stacks *stacks, sortsize *ss);
-
 
 #endif

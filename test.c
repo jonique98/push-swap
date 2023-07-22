@@ -64,6 +64,10 @@ void	rrr(stack *a, stack *b)
 	rrb(b);
 }
 
+int     peek(node *a)
+{
+    return a->value;
+}
 
 int *resetmergeSize(sortinfo *si){
     int *arr;
@@ -77,6 +81,7 @@ int *resetmergeSize(sortinfo *si){
         j++;
         i+=3;
     }
+    free(si->mergeSize);
     return arr;
 }
 
@@ -101,17 +106,53 @@ int *resettriShape(sortinfo *si){
         }
         i+=3;
     }
+    free(si->triShape);
+    return arr;
 }
 
-void move(sortinfo *sortinfo, stacks *stacks)
+sortsize *init_sortsize(stacks *stacks, int a)
+{
+    sortsize *ss;
+
+    ss = malloc(sizeof(sortsize));
+    if(a == 1)
+    {
+        ss->target = stacks->a;
+        ss->src = stacks->b;
+    }
+    else if (a == 2)
+    {
+        ss->target = stacks->b;
+        ss->src = stacks->a;
+    }
+    return ss;
+}
+
+void switchsortsize(sortsize *ss, stacks *stacks)
+{
+    if(ss->target == stacks->a)
+    {
+        ss->target = stacks->b;
+        ss->src = stacks->a;
+    }
+    else if(ss->target == stacks->b)
+    {
+        ss->target = stacks->a;
+        ss->src = stacks->b;
+    }
+}
+
+void move(sortinfo *sortinfo, stacks *stacks, int a)
 {
     int len;
     int size;
     int i;
+    sortsize *ss;
 
     i = -1;
     size = 0;
     len = 0;
+    ss = init_sortsize(stacks, a);
 
     while (is_sorting(stacks->a))
     {
@@ -119,27 +160,20 @@ void move(sortinfo *sortinfo, stacks *stacks)
         while (++i < len)
             size += sortinfo->mergeSize[i];
         i = -1;
-        if(stacks->a->size == 0)
-        {
-            while (++i < size)
-                pa(stacks->b, stacks->a);
-        }
-        else
-            pa(stacks->b, stacks->a);
-        }
-        realsort3(stacks, sortinfo);
+        while (++i < size)
+            move(ss->src, ss->target);
+        realsort(stacks, sortinfo);
         sortinfo->triShape = resettriShape(sortinfo);
         sortinfo->mergeSize = resetmergeSize(sortinfo);
         sortinfo->len = sortinfo->len / 3;
+        switchsortsize(ss, stacks);
     }
+    return ;
 }
 
-void realsort3(stacks *stacks, sortinfo *sortinfo)
+void realsort(sortinfo *sortinfo, sortsize *ss)
 {
-    sortsize *ss;
     int i;
-
-    ss = malloc(sizeof(sortsize));
 
     i = -1;
     while(++i < sortinfo->len / 3)
@@ -149,278 +183,92 @@ void realsort3(stacks *stacks, sortinfo *sortinfo)
         ss->size3 = sortinfo->mergeSize[i];
         ss->shape = sortinfo->triShape[i];
         if(ss->shape == 1)
-            realupperSort(stacks, ss);
-        // else if(ss->shape == 0)
-            // reallowerSort(stacks, ss);
+            realupperSort(ss);
+        else if(ss->shape == 0)
+            reallowerSort(ss);
     }
 }
 
-void moveMaxvalue(stacks *stacks, sortsize *ss)
+void reallopwerSort(sortsize *ss)
 {
-    if (max(stacks->a->bottom, stacks->b->top, stacks->b->bottom) == stacks->a->bottom)
-    {
-        rra(stacks->a);
-        ss->size1--;
-    }
-    else if (max(stacks->a->bottom, stacks->b->top, stacks->b->bottom) == stacks->b->top)
-    {
-        pa(stacks->b, stacks->a);
-        ss->size2--;
-    }
-    else if (max(stacks->a->bottom, stacks->b->top, stacks->b->bottom) == stacks->b->bottom)
-    {
-        rrb(stacks->b);
-        pa(stacks->b, stacks->a);
-        ss->size3--;
-    }
-}
+    node *tb;
+    node *st;
+    node *sb;
 
-void moveMinvalue(stacks *stacks, sortsize *ss)
-{
-    if (min(stacks->a->bottom, stacks->b->top, stacks->b->bottom) == stacks->a->bottom)
-    {
-        rra(stacks->a);
-        ss->size1--;
-    }
-    else if (min(stacks->a->bottom, stacks->b->top, stacks->b->bottom) == stacks->b->top)
-    {
-        pa(stacks->b, stacks->a);
-        ss->size2--;
-    }
-    else if (min(stacks->a->bottom, stacks->b->top, stacks->b->bottom) == stacks->b->bottom)
-    {
-        rrb(stacks->b);
-        pa(stacks->b, stacks->a);
-        ss->size3--;
-    }
-}
-
-void moveupper23(stacks *stacks, sortsize *ss)
-{
-    while (ss->size2 > 0 && ss->size3 > 0)
-        {
-            if(max(0, stacks->b->top, stacks->b->bottom) == stacks->b->top)
-                {
-                    pa(stacks->b, stacks->a);
-                    ss->size2--;
-                }
-            else if (max(0, stacks->b->top, stacks->b->bottom) == stacks->b->bottom)
-                {
-                    rrb(stacks->b);
-                    pa(stacks->b, stacks->a);
-                    ss->size3--;
-                }
-        }
-        if(ss->size2 == 0)
-        {
-            while(ss->size3 >0)
-            {
-                rrb(stacks->b);
-                pa(stacks->b, stacks->a);
-                ss->size3--;
-            }
-        }
-        else if(ss->size3 == 0)
-        {
-            while(ss->size2 >0)
-            {
-                pa(stacks->b, stacks->a);
-                ss->size2--;
-            }
-        }
-}
-
-void movelower23(stacks *stacks, sortsize *ss)
-{
-    while (ss->size2 > 0 && ss->size3 > 0)
-        {
-            if(min(0, stacks->b->top, stacks->b->bottom) == stacks->b->top)
-                {
-                    pa(stacks->b, stacks->a);
-                    ss->size2--;
-                }
-            else if (min(0, stacks->b->top, stacks->b->bottom) == stacks->b->bottom)
-                {
-                    rrb(stacks->b);
-                    pa(stacks->b, stacks->a);
-                    ss->size3--;
-                }
-        }
-        if(ss->size2 == 0)
-        {
-            while(ss->size3 > 0)
-            {
-                rrb(stacks->b);
-                pa(stacks->b, stacks->a);
-                ss->size3--;
-            }
-        }
-        else if(ss->size3 == 0)
-        {
-            while(ss->size2 >0)
-            {
-                pa(stacks->b, stacks->a);
-                ss->size2--;
-            }
-        }
-}
-
-void moveupper13(stacks *stacks, sortsize *ss)
-{
-    while (ss->size1 > 0 && ss->size3 > 0)
-    {
-            if (max(0, stacks->a->bottom, stacks->b->bottom) == stacks->a->bottom)
-            {
-                rra(stacks->a);
-                ss->size1--;
-            }
-            else if (max(0, stacks->a->bottom, stacks->b->bottom) == stacks->b->bottom)
-            {
-                rrb(stacks->b);
-                pa(stacks->b, stacks->a);
-                ss->size3--;
-            }
-    }
-    if(ss->size1 == 0)
-        {
-            while(ss->size3 >0)
-            {
-                rrb(stacks->b);
-                pa(stacks->b, stacks->a);
-                ss->size3--;
-            }
-        }
-        else if(ss->size3 == 0)
-        {
-            while(ss->size1 >0)
-            {
-                rra(stacks->a);
-                ss->size1--;
-            }
-        }
-}
-
-void movelower13(stacks *stacks, sortsize *ss)
-{
-    while (ss->size1 != 0 && ss->size3 != 0)
-        {
-            if(min(0, stacks->a->bottom, stacks->b->bottom) == stacks->a->bottom)
-                {
-                    rra(stacks->a);
-                    ss->size1--;
-                }
-            else if (min(0, stacks->a->bottom, stacks->b->bottom) == stacks->b->bottom)
-                {
-                    rrb(stacks->b);
-                    pa(stacks->b, stacks->a);
-                    ss->size3--;
-                }
-        }
-        if(ss->size1 == 0)
-        {
-            while(ss->size3 !=0)
-            {
-                rrb(stacks->b);
-                pa(stacks->b, stacks->a);
-                ss->size3--;
-            }
-        }
-        else if(ss->size3 == 0)
-        {
-            while(ss->size1 !=0)
-            {
-                pa(stacks->b, stacks->a);
-                ss->size1--;
-            }
-        }
-}
-
-void moveupper12(stacks *stacks, sortsize *ss)
-{
-    while (ss->size1 > 0 && ss->size2 > 0)
-        {
-            if(max(0, stacks->a->bottom, stacks->b->top) == stacks->a->bottom)
-                {
-                    rra(stacks->a);
-                    ss->size1--;
-                }
-            else if (max(0, stacks->a->bottom, stacks->b->top) == stacks->b->top)
-                {
-                    pa(stacks->b, stacks->a);
-                    ss->size2--;
-                }
-        }
-    if(ss->size1 == 0)
-        {
-            while(ss->size2  > 0)
-            {
-                pa(stacks->b, stacks->a);
-                ss->size2--;
-            }
-        }
-    else if(ss->size2 == 0)
-        {
-            while(ss->size1 > 0)
-            {
-                rra(stacks->a);
-                ss->size1--;
-            }
-        }
-}
-
-void movelower12(stacks *stacks, sortsize *ss)
-{
-    while (ss->size1 != 0 && ss->size2 != 0)
-        {
-            if(min(0, stacks->a->bottom, stacks->b->top) == stacks->a->bottom)
-                {
-                    rra(stacks->a);
-                    ss->size1--;
-                }
-            else if (min(0, stacks->a->bottom, stacks->b->top) == stacks->b->top)
-                {
-                    pa(stacks->b, stacks->a);
-                    ss->size2--;
-                }
-        }
-        if(ss->size1 == 0)
-        {
-            while(ss->size2 !=0)
-            {
-                pa(stacks->b, stacks->a);
-                ss->size2--;
-            }
-        }
-        else if(ss->size2 == 0)
-        {
-            while(ss->size1 !=0)
-            {
-                rra(stacks->a);
-                ss->size1--;
-            }
-        }
-}
-
-void reallowerSort(stacks *stacks, sortsize *ss)
-{
+    tb = ss->target->bottom; 
+    st = ss->src->top;
+    sb = ss->src->bottom;
     while(ss->size1 != 0 && ss->size2 != 0 && ss->size3 != 0)
-            moveMinvalue(stacks, ss);
-    if(ss->size1 == 0)
-            movelower23(stacks, ss);
-    else if(ss->size2 == 0)
-            movelower13(stacks, ss);
-    else if(ss->size3 == 0)
-            movelower12(stacks, ss);
+    {
+        if(ss->size1 != 0 && ((min(tb, st, sb) == tb) || (ss->size3 != 0 && ss->size2 == 0 && tb->value < sb->value) || (ss->size2 != 0 && ss->size3 == 0 && tb->value < st->value) || (ss->size2 == 0 && ss->size3 == 0)))
+        {
+            rra(ss->target);
+            ss->size1--;
+        }
+        else if(ss->size2 != 0 && ((min(tb, st, sb) == st) || (ss->size1 != 0 && ss->size3 == 0 && st->value < tb->value) || (ss->size3 != 0 && ss->size1 == 0 && st->value < sb->value) || (ss->size1 == 0 && ss->size3 == 0)))
+        {
+            pa(ss->src, ss->target);
+            ss->size2--;
+        }
+        else if(ss->size3 != 0 && ((min(tb, st, sb) == sb) || (ss->size2 != 0 && ss->size1 == 0 && sb->value < st->value) || (ss->size1 != 0 && ss->size2 == 0 && sb->value < tb->value) || (ss->size1 == 0 && ss->size2 == 0)))
+        {
+            rra(ss->src);
+            pa(ss->src, ss->target);
+            ss->size3--;
+        }
+    }
 }
 
-void realupperSort(stacks *stacks, sortsize *ss)
+void realupperSort(sortsize *ss)
 {
+    node *tb;
+    node *st;
+    node *sb;
+
+    tb = ss->target->bottom; 
+    st = ss->src->top;
+    sb = ss->src->bottom;
     while(ss->size1 != 0 && ss->size2 != 0 && ss->size3 != 0)
-            moveMaxvalue(stacks, ss);
-    if(ss->size1 == 0)
-            moveupper23(stacks, ss);
-    else if(ss->size2 == 0)
-            moveupper13(stacks, ss);
-    else if(ss->size3 == 0)
-            moveupper12(stacks, ss);
+    {
+        if(ss->size1 != 0 && ((max(tb, st, sb) == tb) || (ss->size3 != 0 && ss->size2 == 0 && tb->value > sb->value) || (ss->size2 != 0 && ss->size3 == 0 && tb->value > st->value) || (ss->size2 == 0 && ss->size3 == 0)))
+        {
+            rra(ss->target);
+            ss->size1--;
+        }
+        else if(ss->size2 != 0 && ((max(tb, st, sb) == st) || (ss->size1 != 0 && ss->size3 == 0 && st->value > tb->value) || (ss->size3 != 0 && ss->size1 == 0 && st->value > sb->value) || (ss->size1 == 0 && ss->size3 == 0)))
+        {
+            pa(ss->src, ss->target);
+            ss->size2--;
+        }
+        else if(ss->size3 != 0 && ((max(tb, st, sb) == sb) || (ss->size2 != 0 && ss->size1 == 0 && sb->value > st->value) || (ss->size1 != 0 && ss->size2 == 0 && sb->value > tb->value) || (ss->size1 == 0 && ss->size2 == 0)))
+        {
+            rra(ss->src);
+            pa(ss->src, ss->target);
+            ss->size3--;
+        }
+    }
 }
+
+
+// void realupperSort(stacks *stacks, sortsize *ss)
+// {
+//     while(ss->size1 != 0 && ss->size2 != 0 && ss->size3 != 0)
+//             moveMaxvalue(stacks, ss);
+//     if(ss->size1 == 0)
+//             moveupper23(stacks, ss);
+//     else if(ss->size2 == 0)
+//             moveupper13(stacks, ss);
+//     else if(ss->size3 == 0)
+//             moveupper12(stacks, ss);
+// }
+// void reallowerSort(stacks *stacks, sortsize *ss)
+// {
+//     while(ss->size1 != 0 && ss->size2 != 0 && ss->size3 != 0)
+//             moveMinvalue(stacks, ss);
+//     if(ss->size1 == 0)
+//             movelower23(stacks, ss);
+//     else if(ss->size2 == 0)
+//             movelower13(stacks, ss);
+//     else if(ss->size3 == 0)
+//             movelower12(stacks, ss);
+// }
