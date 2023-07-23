@@ -332,7 +332,7 @@ void make_tri(sortinfo *sortinfo, stacks *stacks)
 
     len = stacks->a->size;
     i = -1;
-    if (sortinfo->len == 9 || sortinfo->len == 81)
+    if (sortinfo->len == 9 || sortinfo->len == 81 || sortinfo->len == 729)
     {
         ss = init_sortsize(stacks, 1);
         while(++i < len)

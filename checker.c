@@ -23,9 +23,9 @@ int main(int ac, char **av)
 		mergeSize_and_triShape(st->a->size, si);
 		make_tri(si, st);
 		move(si, st);
-	int len = st->a->size;
-	for (int i = 0; i < len; i++)
-		printf("%d\n", pop(st->a));
+	// int len = st->a->size;
+	// for (int i = 0; i < len; i++)
+	// 	printf("%d\n", pop(st->a));
 		printf("%d", st->cnt);
 	}
 }
