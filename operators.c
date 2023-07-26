@@ -1,7 +1,7 @@
 #include "pushswap.h"
 
 
-void swap(stack *s, stacks *stacks)
+void	swap(stack *s, stacks *stacks)
 {
 	node	*top;
 	node	*second;

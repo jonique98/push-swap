@@ -1,9 +1,23 @@
-#ifndef PUSHSWAP_H
-#define PUSHSWAP_H
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pushswap.h                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: josumin <josumin@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/27 03:33:49 by josumin           #+#    #+#             */
+/*   Updated: 2023/07/27 03:49:37 by josumin          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <unistd.h>
+#ifndef PUSHSWAP_H
+# define PUSHSWAP_H
+
+# include <stdlib.h>
+# include <stdio.h>
+# include <unistd.h>
+
+#define SIZE1_IS_MAX 
 
 typedef struct _stack{
 	int		value;
@@ -40,10 +54,10 @@ typedef struct _sortnode{
 }sortsize;
 
 //checker
-void free_all_error(stacks *stacks, sortinfo *sortinfo, sortsize *sortsize);
-void free_all(stacks *stacks, sortinfo *sortinfo, sortsize *sortsize);
-void free_stacks(stacks *stacks);
-void leak();
+void	free_all_error(stacks *stacks, sortinfo *sortinfo, sortsize *sortsize);
+void	free_all(stacks *stacks, sortinfo *sortinfo, sortsize *sortsize);
+void	free_stacks(stacks *stacks);
+void	leak();
 void	error(void *p1, void *p2, void *p3);
 
 //conquer
@@ -93,19 +107,20 @@ int     peek(node *a);
 //realsort
 void	realsort(sortinfo *sortinfo, sortsize *ss, stacks *stacks);
 void	reallowersort(sortsize *ss, stacks *stacks, stack *target, stack *src, sortinfo *sortinfo);
-void realuppersort(sortsize *ss, stacks *stacks, stack *target, stack *src, sortinfo *sortinfo);
+void	realuppersort(sortsize *ss, stacks *stacks, stack *target, stack *src, sortinfo *sortinfo);
 
 //sort
-node *max(node *a, node *b, node *c);
-node *min(node *a, node *b, node *c);
+node 	*max(node *a, node *b, node *c);
+node 	*min(node *a, node *b, node *c);
+void	sort6(sortsize *ss, stacks *stacks, sortinfo *sortinfo);
 void	sort3(sortsize *ss, stacks *stacks, sortinfo *sortinfo);
 void	sort4(sortsize *ss, stacks *stacks, sortinfo *sortinfo);
 void	sort5(sortsize *ss, stacks *stacks, sortinfo *sortinfo);
-void	sort2(sortsize *ss, stacks *stacks, sortinfo *sortinfo);
+void	sort2(sortsize *ss, stacks *stacks, sortinfo *sortinfo, int a);
 
 //trishape
-int	*make_trishape_arr(int *triShape, int len, int *one, int *zero);
-int *init_trishape();
+int		*make_trishape_arr(int *triShape, int len, int *one, int *zero);
+int		*init_trishape();
 void	make_triShape(int len, sortinfo *sortinfo, stacks *stacks);
 
 //util
