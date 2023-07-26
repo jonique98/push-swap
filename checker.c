@@ -10,6 +10,7 @@ void free_all_error(stacks *stacks, sortinfo *sortinfo, sortsize *sortsize)
 	}
 	if (sortsize != 0)
 		free(sortsize);
+	error(0,0,0);
 	free_stacks(stacks);
 }
 
@@ -52,6 +53,7 @@ void free_stacks(stacks *stacks)
 	free(stacks->b);
 	free(stacks->operations);
 	free(stacks);
+	exit(0);
 }
 
 void leak()
@@ -79,16 +81,17 @@ int	main(int ac, char **av)
 	si = init_sortinfo(st);
 	if (!check(av, st))
 		free_all_error(st, si, 0);
-	if (!is_sorting(st->a))
+	if (st->a->size < 6)
+		write(1, "hardsort", 8);
+	else
 	{
-		mergeSize_and_triShape(st->a->size, si, st);
-		make_tri(si, st);
-		move(si, st);
+		if (!is_sorting(st->a))
+		{
+			mergeSize_and_triShape(st->a->size, si, st);
+			make_tri(si, st);
+			move(si, st);
+		}
 	}
-	// printf("%s", st->operations);
-	// int len = st->a->size;
-	// for(int i = 0; i < len; i++)
-		// printf("%d\n", pop(st->a));
+	write(1, st->operations, ft_strlen(st->operations));
 	free_all(st, si, 0);
-	system("leaks push_swap");
 }
