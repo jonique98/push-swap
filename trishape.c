@@ -27,7 +27,8 @@ int	*make_trishape_arr(int *triShape, int len, int *one, int *zero)
 		}
 		i++;
 	}
-	return returnarr;
+	free(triShape);
+	return (returnarr);
 }
 
 int *init_trishape()
@@ -35,7 +36,7 @@ int *init_trishape()
 	int *arr;
 
 	arr = malloc(sizeof(int) * 3);
-	if(!arr)
+	if (!arr)
 		return (0);
 	arr[0] = 1;
 	arr[1] = 0;

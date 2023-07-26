@@ -84,6 +84,7 @@ sortsize	*init_sortsize(sortsize *p, stacks *stacks, sortinfo *sortinfo, int a)
 		ss->target = stacks->b;
 		ss->src = stacks->a;
 	}
+	free(p);
 	return (ss);
 }
 

@@ -85,10 +85,10 @@ int	main(int ac, char **av)
 		make_tri(si, st);
 		move(si, st);
 	}
-	printf("%s", st->operations);
+	// printf("%s", st->operations);
 	// int len = st->a->size;
 	// for(int i = 0; i < len; i++)
 		// printf("%d\n", pop(st->a));
 	free_all(st, si, 0);
-	// system("leaks push_swap");
+	system("leaks push_swap");
 }
