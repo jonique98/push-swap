@@ -18,7 +18,7 @@ run_a_out_and_compare() {
 #결과값 출력
     echo "$INDEX : $NUM"
 #결과값을 정수로 변환하여 비교
-    if [[ $NUM -ge $LIMIT ]]; then
+    if [[ $NUM -ge $LIMIT ]]; thendsasfdfasfsdfasdsdfsdsdsfsddsd
       NUM_OVER=$((NUM_OVER + 1))
     fi
     if [[ $NUM -gt $MAX ]]; then

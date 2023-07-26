@@ -7,13 +7,13 @@ void	init_node(int value, node *node)
 	node->prev = 0;
 }
 
-void	insertFirst(int a, stack *s)
+int	insertFirst(int a, stack *s)
 {
 	node	*n;
 
 	n = malloc(sizeof(node));
 	if (!n)
-		return ;
+		return (0);
 	init_node(a, n);
 	if (s->size == 0)
 	{
@@ -30,15 +30,16 @@ void	insertFirst(int a, stack *s)
 		s->bottom = n;
 		s->size++;
 	}
+	return (1);
 }
 
-void	insert(int a, stack *s)
+int	insert(int a, stack *s)
 {
 	node	*n;
 
 	n = malloc(sizeof(node));
 	if (!n)
-		return ;
+		return 0;
 	init_node(a, n);
 	if (s->size == 0)
 	{
@@ -55,6 +56,7 @@ void	insert(int a, stack *s)
 		s->top = n;
 		s->size++;
 	}
+	return (1);
 }
 
 int	pop(stack *s)

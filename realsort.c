@@ -3,75 +3,82 @@
 void	realsort(sortinfo *sortinfo, sortsize *ss, stacks *stacks)
 {
 	int i;
+	int	len;
 
 	i = -1;
+	len = sortinfo->len;
 	while (++i < sortinfo->len / 3)
 	{
-		ss->size1 = sortinfo->mergeSize[sortinfo->len - i - 1];
-		ss->size2 = sortinfo->mergeSize[sortinfo->len - ((sortinfo->len / 3) + i + 1)];
+		ss->size1 = sortinfo->mergeSize[len - i - 1];
+		ss->size2 = sortinfo->mergeSize[len - ((len / 3) + i + 1)];
 		ss->size3 = sortinfo->mergeSize[i];
 		ss->shape = sortinfo->triShape[i];
 		if (ss->shape == 1)
-			realuppersort(ss, stacks, ss->target, ss->src);
+			realuppersort(ss, stacks, ss->target, ss->src, sortinfo);
 		else if(ss->shape == 0)
-			reallowersort(ss, stacks, ss->target, ss->src);
+			reallowersort(ss, stacks, ss->target, ss->src, sortinfo);
 	}
 }
 
-void	reallowersort(sortsize *ss, stacks *stacks, stack *target, stack *src)
+void	reallowersort(sortsize *ss, stacks *stacks, stack *t, stack *s, sortinfo *sortinfo)
 {
 	while (ss->size1 != 0 || ss->size2 != 0 || ss->size3 != 0)
 	{
-		if (ss->size1 != 0 && ((min(target->bottom, src->top, src->bottom) == target->bottom)
-				|| (ss->size3 != 0 && ss->size2 == 0 && target->bottom->value < src->bottom->value)
-				|| (ss->size2 != 0 && ss->size3 == 0 && target->bottom->value < src->top->value) || (ss->size2 == 0 && ss->size3 == 0)))
+		if (ss->size1 != 0 && ((ss->size2 == 0 && ss->size3 == 0)
+				|| (min(t->bottom, s->top, s->bottom) == t->bottom)
+				|| (ss->size2 == 0 && t->bottom->value < s->bottom->value)
+				|| (ss->size3 == 0 && t->bottom->value < s->top->value)))
 		{
 			rreverse(ss->target, stacks);
 			ss->size1--;
 		}
-		else if (ss->size2 != 0 && ((min(target->bottom, src->top, src->bottom) == src->top)
-				|| (ss->size1 != 0 && ss->size3 == 0 && src->top->value < target->bottom->value)
-		 		|| (ss->size3 != 0 && ss->size1 == 0 && src->top->value < src->bottom->value) || (ss->size1 == 0 && ss->size3 == 0)))
+		else if (ss->size2 != 0 && ((ss->size1 == 0 && ss->size3 == 0) 
+				|| (min(t->bottom, s->top, s->bottom) == s->top)
+				|| (ss->size3 == 0 && s->top->value < t->bottom->value)
+				|| (ss->size1 == 0 && s->top->value < s->bottom->value)))
 		{
-			push(ss->src, ss->target, stacks);
+			push(ss, stacks, sortinfo);
 			ss->size2--;
 		}
-		else if (ss->size3 != 0 && ((ss->size1 == 0 && ss->size2 == 0) ||
-				(min(target->bottom, src->top, src->bottom) == src->bottom) 
-				|| (ss->size1 == 0 && src->bottom->value < src->top->value) 
-				|| (ss->size2 == 0 && src->bottom->value < target->bottom->value)))
+		else if (ss->size3 != 0 && ((ss->size1 == 0 && ss->size2 == 0)
+				|| (min(t->bottom, s->top, s->bottom) == s->bottom)
+				|| (ss->size1 == 0 && s->bottom->value < s->top->value)
+				|| (ss->size2 == 0 && s->bottom->value < t->bottom->value)))
 		{
 			rreverse(ss->src, stacks);
-			push(ss->src, ss->target, stacks);
+			push(ss, stacks, sortinfo);
 			ss->size3--;
 		}
 	}
 }
 
-void realuppersort(sortsize *ss, stacks *stacks, stack *target, stack *src)
+void realuppersort(sortsize *ss, stacks *stacks, stack *t, stack *s, sortinfo *sortinfo)
 {
-	while(ss->size1 != 0 || ss->size2 != 0 || ss->size3 != 0)
+	while (ss->size1 != 0 || ss->size2 != 0 || ss->size3 != 0)
 	{
-		if(ss->size1 != 0 && ((ss->size2 !=0 && ss->size3 != 0 && max(target->bottom, src->top, src->bottom) == target->bottom) 
-		|| (ss->size3 != 0 && ss->size2 == 0 && target->bottom->value > src->bottom->value) 
-		|| (ss->size2 != 0 && ss->size3 == 0 && target->bottom->value > src->top->value) || (ss->size2 == 0 && ss->size3 == 0)))
+		if (ss->size1 != 0 && ((ss->size2 == 0 && ss->size3 == 0)
+				|| (max(t->bottom, s->top, s->bottom) == t->bottom)
+				|| (ss->size2 == 0 && t->bottom->value > s->bottom->value)
+				|| (ss->size3 == 0 && t->bottom->value > s->top->value)))
 		{
 			rreverse(ss->target, stacks);
 			ss->size1--;
 		}
-		else if(ss->size2 != 0 && ((ss->size1 !=0 && ss->size3 != 0 && max(target->bottom, src->top, src->bottom) == src->top) 
-		|| (ss->size1 != 0 && ss->size3 == 0 && src->top->value > target->bottom->value)
-		 || (ss->size3 != 0 && ss->size1 == 0 && src->top->value > src->bottom->value) || (ss->size1 == 0 && ss->size3 == 0)))
+		else if (ss->size2 != 0 && ((ss->size1 == 0 && ss->size3 == 0) 
+				|| (max(t->bottom, s->top, s->bottom) == s->top)
+				|| (ss->size3 == 0 && s->top->value > t->bottom->value)
+				|| (ss->size1 == 0 && s->top->value > s->bottom->value)))
 		{
-			push(ss->src, ss->target, stacks);
+			push(ss, stacks, sortinfo);
 			ss->size2--;
 		}
-		else if(ss->size3 != 0 && ((ss->size1 !=0 && ss->size2 != 0 && max(target->bottom, src->top, src->bottom) == src->bottom) 
-		|| (ss->size2 != 0 && ss->size1 == 0 && src->bottom->value > src->top->value) 
-		|| (ss->size1 != 0 && ss->size2 == 0 && src->bottom->value > target->bottom->value) || (ss->size1 == 0 && ss->size2 == 0)))
+		else if (ss->size3 != 0 && ((ss->size1 == 0 && ss->size2 == 0)
+				|| (max(t->bottom, s->top, s->bottom) == s->bottom)
+				|| (ss->size1 == 0 && s->bottom->value > s->top->value)
+				|| (ss->size2 == 0 && s->bottom->value > t->bottom->value)))
 		{
 			rreverse(ss->src, stacks);
-			push(ss->src, ss->target, stacks);
+			push(ss, stacks, sortinfo);
 			ss->size3--;
 		}
 	}

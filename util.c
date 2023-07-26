@@ -32,6 +32,31 @@ int ft_free(void *p1, void *p2)
 	return 0;
 }
 
+char	*ft_strjoin_op(char *s1, char *s2, int i, int j)
+{
+	char		*arr;
+
+	if (s1 == 0 && s2 == 0)
+		return (0);
+	arr = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+	if (!arr)
+	{
+		free(s1);
+		return (0);
+	}
+	while (s1 != 0 && s1[i])
+	{
+		arr[i] = s1[i];
+		i++;
+	}
+	while (s2 != 0 && s2[j])
+		arr[i++] = s2[j++];
+	arr[i] = '\0';
+	free(s1);
+	return (arr);
+}
+
+
 char	*ft_strjoin(char *s1, char *s2, int i, int j)
 {
 	char		*arr;
