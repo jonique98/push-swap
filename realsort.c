@@ -22,23 +22,24 @@ void	reallowersort(sortsize *ss, stacks *stacks, stack *target, stack *src)
 {
 	while (ss->size1 != 0 || ss->size2 != 0 || ss->size3 != 0)
 	{
-		if (ss->size1 != 0 && ((ss->size2 != 0 && ss->size3 != 0 && min(target->bottom, src->top, src->bottom) == target->bottom)
+		if (ss->size1 != 0 && ((min(target->bottom, src->top, src->bottom) == target->bottom)
 				|| (ss->size3 != 0 && ss->size2 == 0 && target->bottom->value < src->bottom->value)
 				|| (ss->size2 != 0 && ss->size3 == 0 && target->bottom->value < src->top->value) || (ss->size2 == 0 && ss->size3 == 0)))
 		{
 			rreverse(ss->target, stacks);
 			ss->size1--;
 		}
-		else if (ss->size2 != 0 && ((ss->size1 !=0 && ss->size3 != 0 && min(target->bottom, src->top, src->bottom) == src->top)
+		else if (ss->size2 != 0 && ((min(target->bottom, src->top, src->bottom) == src->top)
 				|| (ss->size1 != 0 && ss->size3 == 0 && src->top->value < target->bottom->value)
 		 		|| (ss->size3 != 0 && ss->size1 == 0 && src->top->value < src->bottom->value) || (ss->size1 == 0 && ss->size3 == 0)))
 		{
 			push(ss->src, ss->target, stacks);
 			ss->size2--;
 		}
-		else if (ss->size3 != 0 && ((ss->size1 !=0 && ss->size2 != 0 && min(target->bottom, src->top, src->bottom) == src->bottom)
-				|| (ss->size2 != 0 && ss->size1 == 0 && src->bottom->value < src->top->value) 
-				|| (ss->size1 != 0 && ss->size2 == 0 && src->bottom->value < target->bottom->value) || (ss->size1 == 0 && ss->size2 == 0)))
+		else if (ss->size3 != 0 && ((ss->size1 == 0 && ss->size2 == 0) ||
+				(min(target->bottom, src->top, src->bottom) == src->bottom) 
+				|| (ss->size1 == 0 && src->bottom->value < src->top->value) 
+				|| (ss->size2 == 0 && src->bottom->value < target->bottom->value)))
 		{
 			rreverse(ss->src, stacks);
 			push(ss->src, ss->target, stacks);

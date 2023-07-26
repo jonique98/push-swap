@@ -1,6 +1,8 @@
 
 #include "pushswap.h"
 
+// void free_all(stacks *stacks, sortinfo *sortinfo, void *p)
+
 void	error()
 {
 	printf("error\n");
@@ -9,8 +11,8 @@ void	error()
 
 int main(int ac, char **av)
 {
-	stacks *st;
-	sortinfo *si;
+	stacks		*st;
+	sortinfo	*si;
 
 	si = init_sortinfo();
 	st = init_stacks();
@@ -23,9 +25,9 @@ int main(int ac, char **av)
 		mergeSize_and_triShape(st->a->size, si);
 		make_tri(si, st);
 		move(si, st);
-	// int len = st->a->size;
-	// for (int i = 0; i < len; i++)
-	// 	printf("%d\n", pop(st->a));
+		// int len = st->a->size;
+		// for(int i = 0; i < len; i++)
+			// printf("%d\n", pop(st->a));
 		printf("%d", st->cnt);
 	}
 }

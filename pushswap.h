@@ -46,25 +46,25 @@ void	rr(stack *a, stack *b, stacks *stacks);
 void	rrr(stack *a, stack *b, stacks *stacks);
 int     peek(node *a);
 
-node *max(node *a, node *b, node *c);
-node *min(node *a, node *b, node *c);
-void sort2(sortsize *ss, int shape, stacks *stacks);
-void sort3(sortsize *ss, int shape, stacks *stacks);
-void sort4(sortsize *ss, int shape, stacks *stacks);
-void sort5(sortsize *ss, int shape, stacks *stacks);
+node	*max(node *a, node *b, node *c);
+node	*min(node *a, node *b, node *c);
+void	sort2(sortsize *ss, int shape, stacks *stacks);
+void	sort3(sortsize *ss, int shape, stacks *stacks);
+void	sort4(sortsize *ss, int shape, stacks *stacks);
+void	sort5(sortsize *ss, int shape, stacks *stacks);
 
+sortsize	*init_sortsize(stacks *stacks, int a);
 int			*resetmergesize(sortinfo *si);
 int			*resettrishape(sortinfo *si);
-sortsize	*init_sortsize(stacks *stacks, int a);
 void		switchsortsize(sortsize *ss, stacks *stacks);
 
-void realsort(sortinfo *sortinfo, sortsize *ss, stacks *stacks);
-void realuppersort(sortsize *ss, stacks *stacks, stack *target, stack *src);
-void reallowersort(sortsize *ss, stacks *stacks, stack *target, stack *src);
+void	realsort(sortinfo *sortinfo, sortsize *ss, stacks *stacks);
+void	realuppersort(sortsize *ss, stacks *stacks, stack *target, stack *src);
+void	reallowersort(sortsize *ss, stacks *stacks, stack *target, stack *src);
 
-void sorting(int size, int shape, stacks *stacks, sortsize *ss);
-void move(sortinfo *sortinfo, stacks *stacks);
-void make_tri(sortinfo *sortinfo, stacks *stacks);
+void	sorting(int size, int shape, stacks *stacks, sortsize *ss);
+void	move(sortinfo *sortinfo, stacks *stacks);
+void	make_tri(sortinfo *sortinfo, stacks *stacks);
 
 void	insertFirst(int a, stack *s);
 void    insert(int a, stack *s);
