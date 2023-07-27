@@ -58,7 +58,7 @@ void free_stacks(stacks *stacks)
 
 void leak()
 {
-	system("leaks a.out");
+	system("leaks push_swap");
 }
 
 void	error(void *p1, void *p2, void *p3)
@@ -66,8 +66,8 @@ void	error(void *p1, void *p2, void *p3)
 	free(p1);
 	free(p2);
 	free(p3);
-	printf("error\n");
-	// exit(0);
+	write(1, "error\n", 6);
+	exit(0);
 }
 
 int	main(int ac, char **av)
@@ -81,11 +81,16 @@ int	main(int ac, char **av)
 	si = init_sortinfo(st);
 	if (!check(av, st))
 		free_all_error(st, si, 0);
-	if (st->a->size < 6)
-		write(1, "hardsort", 8);
-	else
+	// for (int i = 0; i < st->a->size; i++)
+	// {
+	// 	printf("%d", st->a->top->value);
+	// 	st->a->top = st->a->top->prev;
+	// }
+	if (!is_sorting(st->a))
 	{
-		if (!is_sorting(st->a))
+		if (st->a->size < 6)
+			hardsorting(st, si);
+		else
 		{
 			mergeSize_and_triShape(st->a->size, si, st);
 			make_tri(si, st);

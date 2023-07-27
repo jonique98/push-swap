@@ -39,7 +39,7 @@ int	insert(int a, stack *s)
 
 	n = malloc(sizeof(node));
 	if (!n)
-		return 0;
+		return (0);
 	init_node(a, n);
 	if (s->size == 0)
 	{
@@ -59,15 +59,13 @@ int	insert(int a, stack *s)
 	return (1);
 }
 
-int	pop(stack *s)
+void	pop(stack *s)
 {
-	int		value;
 	node	*temp;
 
 	if (s->size == 0)
-		return (-1);
+		return ;
 	temp = s->top;
-	value = temp->value;
 	s->size--;
 	if (s->size == 1)
 	{
@@ -81,5 +79,4 @@ int	pop(stack *s)
 	}
 	s->top = temp->prev;
 	free(temp);
-	return (value);
 }

@@ -2,8 +2,8 @@
 
 void	make_tri(sortinfo *sortinfo, stacks *stacks)
 {
-	int i;
-	int len;
+	int			i;
+	int			len;
 	sortsize	*ss;
 
 	ss = 0;

@@ -32,13 +32,14 @@ void	sort3(sortsize *ss, stacks *stacks, sortinfo *sortinfo)
 {
 	push(ss, stacks, sortinfo);
 	reverse(ss->target, stacks);
-	ss->size1 = 1;
-	ss->size2 = 1;
-	ss->size3 = 1;
+	ss->s1 = 1;
+	ss->s2 = 1;
+	ss->s3 = 1;
 	if (ss->shape == 1)
 		realuppersort(ss, stacks, ss->target, ss->src, sortinfo);
 	else if (ss->shape == 0)
 		reallowersort(ss, stacks, ss->target, ss->src, sortinfo);
+	write(1, "here", 4);
 }
 
 void	sort4(sortsize *ss, stacks *stacks, sortinfo *sortinfo)
@@ -46,9 +47,9 @@ void	sort4(sortsize *ss, stacks *stacks, sortinfo *sortinfo)
 	push(ss, stacks, sortinfo);
 	reverse(ss->target, stacks);
 
-	ss->size1 = 1;
-	ss->size2 = 2;
-	ss->size3 = 1;
+	ss->s1 = 1;
+	ss->s2 = 2;
+	ss->s3 = 1;
 	if (ss->shape == 1)
 	{
 		if (peek(ss->src->top) < peek(ss->src->top->prev))
@@ -65,9 +66,9 @@ void	sort4(sortsize *ss, stacks *stacks, sortinfo *sortinfo)
 
 void	sort6(sortsize *ss, stacks *stacks, sortinfo *sortinfo)
 {
-	ss->size1 = 2;
-	ss->size2 = 2;
-	ss->size3 = 2;
+	ss->s1 = 2;
+	ss->s2 = 2;
+	ss->s3 = 2;
 
 		sort2(ss, stacks, sortinfo, 1);
 		reverse(ss->target, stacks);
@@ -101,9 +102,9 @@ void	sort6(sortsize *ss, stacks *stacks, sortinfo *sortinfo)
 
 void	sort5(sortsize *ss, stacks *stacks, sortinfo *sortinfo)
 {  
-	ss->size1 = 2;
-	ss->size2 = 2;
-	ss->size3 = 1;
+	ss->s1 = 2;
+	ss->s2 = 2;
+	ss->s3 = 1;
 
 	sort2(ss, stacks, sortinfo, 1);
 	reverse(ss->target, stacks);

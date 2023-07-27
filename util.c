@@ -2,15 +2,15 @@
 
 int is_sorting(stack *a)
 {
-	int i;
-	node *n;
-	int value;
+	int		i;
+	node	*n;
+	long	value;
 
 	if (a->size == 0)
-		return 0;
+		return (0);
 
 	i = 0;
-	value = -1;
+	value = -2147483649;
 	n = a->top;
 	while (i < a->size)
 	{
@@ -19,7 +19,7 @@ int is_sorting(stack *a)
 			n = n->prev;
 		}
 		else
-			return 0;
+			return (0);
 		i++;
 	}
 	return (1);
@@ -96,8 +96,13 @@ int	num_check(char *arr)
 	i = 0;
 	while (arr[i])
 	{
-		if (!isNum(arr[i]) && arr[i] != ' ')
+		if (!isNum(arr[i]) && arr[i] != ' ' && arr[i] != '-' && arr[i] != '+')
 			return (0);
+		if (arr[i] == '-' || arr[i] == '+')
+		{
+			if (!isNum(arr[i + 1]))
+				return (0);
+		}
 		i++;
 	}
 	return (1);

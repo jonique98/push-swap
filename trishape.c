@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   trishape.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sumjo <sumjo@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/27 21:44:18 by sumjo             #+#    #+#             */
+/*   Updated: 2023/07/27 21:44:19 by sumjo            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pushswap.h"
 
 int	*make_trishape_arr(int *triShape, int len, int *one, int *zero)
@@ -7,12 +19,12 @@ int	*make_trishape_arr(int *triShape, int len, int *one, int *zero)
 	int	k;
 	int	*returnarr;
 
-	i = 0;
+	i = -1;
 	j = 0;
-	returnarr = malloc(sizeof(int)*(len * 3));
+	returnarr = malloc(sizeof(int) * (len * 3));
 	if (!returnarr)
 		return (0);
-	while (i < len)
+	while (++i < len)
 	{
 		k = 0;
 		if (triShape[i] == 1)
@@ -25,15 +37,14 @@ int	*make_trishape_arr(int *triShape, int len, int *one, int *zero)
 			while (k < 3)
 				returnarr[j++] = zero[k++];
 		}
-		i++;
 	}
 	free(triShape);
 	return (returnarr);
 }
 
-int *init_trishape()
+int	*init_trishape(void)
 {
-	int *arr;
+	int	*arr;
 
 	arr = malloc(sizeof(int) * 3);
 	if (!arr)
@@ -55,7 +66,8 @@ void	make_triShape(int len, sortinfo *sortinfo, stacks *stacks)
 	zero[0] = 1;
 	zero[1] = 1;
 	zero[2] = 0;
-	if (len == 0){
+	if (len == 0)
+	{
 		sortinfo->triShape = init_trishape();
 		if (!sortinfo->triShape)
 			free_all_error(stacks, sortinfo, 0);

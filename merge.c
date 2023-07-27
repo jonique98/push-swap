@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   merge.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sumjo <sumjo@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/27 17:33:29 by sumjo             #+#    #+#             */
+/*   Updated: 2023/07/27 17:44:05 by sumjo            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pushswap.h"
 
-int *make_mergesize_arr(int *mergeSize, int *arr, int *len)
+int	*make_mergesize_arr(int *mergeSize, int *arr, int *len)
 {
 	int		i;
 	int		j;
@@ -27,9 +39,9 @@ int *make_mergesize_arr(int *mergeSize, int *arr, int *len)
 	return (returnarr);
 }
 
-int merge(int size, sortinfo *sortinfo, int *len, stacks *stacks)
+int	merge(int size, sortinfo *sortinfo, int *len, stacks *stacks)
 {
-	int arr[3];
+	int	arr[3];
 
 	arr[0] = size / 3;
 	arr[1] = (size - arr[0]) / 2;
@@ -49,20 +61,22 @@ int merge(int size, sortinfo *sortinfo, int *len, stacks *stacks)
 	return (1);
 }
 
-int mergeSize_and_triShape(int size, sortinfo *sortinfo, stacks *stacks){
-	int len;
-	int triLen;
+int	mergeSize_and_triShape(int size, sortinfo *sortinfo, stacks *stacks)
+{
+	int	len;
+	int	trilen;
 
 	len = 0;
-	triLen = 0;
+	trilen = 0;
 	merge(size, sortinfo, &len, stacks);
 	sortinfo->len = len;
-	while (triLen != len){
-		make_triShape(triLen, sortinfo, stacks);
-		if (triLen == 0)
-			triLen = 3;
+	while (trilen != len)
+	{
+		make_triShape(trilen, sortinfo, stacks);
+		if (trilen == 0)
+			trilen = 3;
 		else
-			triLen *= 3;
+			trilen *= 3;
 	}
 	return (0);
 }

@@ -29,9 +29,8 @@ void	push(sortsize *ss, stacks *stacks, sortinfo *sortinfo)
 {
 	int	value;
 
-	value = pop(ss->src);
-	if (value == -1)
-		return ;
+	value = peek(ss->src->top);
+	pop(ss->src);
 	if (!insert(value, ss->target))
 		free_all_error(stacks, sortinfo, ss);
 	if (ss->target == stacks->a)

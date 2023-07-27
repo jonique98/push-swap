@@ -12,9 +12,9 @@ int num_len(char *arr)
 	{
 		while (arr[i] && arr[i] == ' ')
 			i++;
-		if (isNum(arr[i]))
+		if (isNum(arr[i]) || arr[i] == '+' || arr[i] == '-')
 			flag = 1;
-		while (arr[i] && isNum(arr[i]))
+		while (arr[i] && (isNum(arr[i]) || arr[i] == '+' || arr[i] == '-'))
 			i++;
 		if (flag == 1)
 		{
@@ -29,7 +29,7 @@ int	check(char **av, stacks *stacks)
 {
 	int			i;
 	char		*arr;
-	long long	*num;
+	long		*num;
 
 	num = 0;
 	i = 0;
@@ -42,7 +42,7 @@ int	check(char **av, stacks *stacks)
 	}
 	if (!num_check(arr))
 		return (ft_free(arr, 0));
-	num = malloc(sizeof(long long) * num_len(arr));
+	num = malloc(sizeof(long) * num_len(arr));
 	if (!num || !duplicate_check(arr, num))
 		return (ft_free(arr, num));
 	if (!intsert_int_node(num, arr, stacks))
@@ -51,7 +51,7 @@ int	check(char **av, stacks *stacks)
 	return (1);
 }
 
-int intsert_int_node(long long *num, char *arr, stacks *stacks)
+int intsert_int_node(long *num, char *arr, stacks *stacks)
 {
 	int i;
 
@@ -64,9 +64,9 @@ int intsert_int_node(long long *num, char *arr, stacks *stacks)
 	return (1);
 }
 
-long makeNum(char **arr)
+long	makeNum(char **arr)
 {
-	long long n;
+	long	n;
 
 	n = 0;
 	while (*(*arr) && isNum(*(*arr)))
@@ -77,27 +77,42 @@ long makeNum(char **arr)
 	return (n);
 }
 
-int duplicate_check(char *arr, long long *num)
+int	is_duplicate(int n, long *num, int i)
 {
-	int i;
-	int j;
+	int	j;
+
+	j = 0;
+	while (j < i)
+	{
+		if (n == num[j])
+			return (1);
+		j++;
+	}
+	return (0);
+}
+
+int	duplicate_check(char *arr, long *num)
+{
+	int	i;
+	int	minus;
 
 	i = -1;
 	while (*arr)
 	{
-		j = -1;
-		while (*arr && *arr == ' ')
+		minus = 1;
+		while (*arr && (*arr == ' ' || *arr == '+' || *arr == '-'))
+		{
+			if (*arr == '-')
+				minus = -1;
 			arr++;
+		}
 		if (*arr == '\0')
 			return (1);
-		num[++i] = makeNum(&arr);
-		if (num[i] > 2147483647)
+		num[++i] = makeNum(&arr) * minus;
+		if (num[i] > 2147483647 || num[i] < -2147483648)
 			return (0);
-		while (++j < i)
-		{
-			if (num[j] == num[i])
-				return (0);
-		}
+		if (is_duplicate(num[i], num, i))
+			return (0);
 	}
 	return (1);
 }
