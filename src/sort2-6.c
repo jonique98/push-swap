@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sort2-6.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josumin <josumin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sumjo <sumjo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 15:42:54 by josumin           #+#    #+#             */
-/*   Updated: 2023/07/28 17:07:10 by josumin          ###   ########.fr       */
+/*   Updated: 2023/07/28 23:31:37 by sumjo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ void	sort4(t_sortsize *ss, t_stacks *stacks, t_sortinfo *sortinfo)
 	}
 }
 
-
 void	sort5(t_sortsize *ss, t_stacks *stacks, t_sortinfo *sortinfo)
 {
 	ss->s1 = 2;
@@ -78,8 +77,8 @@ void	sort5(t_sortsize *ss, t_stacks *stacks, t_sortinfo *sortinfo)
 		realuppersort(ss, stacks, sortinfo);
 	else
 		reallowersort(ss, stacks, sortinfo);
-
 }
+
 void	sort6(t_sortsize *ss, t_stacks *stacks, t_sortinfo *sortinfo)
 {
 	ss->s1 = 2;

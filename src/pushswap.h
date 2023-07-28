@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pushswap.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josumin <josumin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sumjo <sumjo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 03:33:49 by josumin           #+#    #+#             */
-/*   Updated: 2023/07/28 17:07:43 by josumin          ###   ########.fr       */
+/*   Updated: 2023/07/28 21:38:28 by sumjo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define PUSHSWAP_H
 
 # include <stdlib.h>
-# include <stdio.h>
 # include <unistd.h>
 
 typedef struct _stack{
@@ -142,5 +141,7 @@ void		rreverse_target_s1(t_sortsize *ss, t_stacks *stacks);
 void		push_s2(t_sortsize *ss, t_stacks *stacks, t_sortinfo *sortinfo);
 void		rreverse_src_push_s3(t_sortsize *ss, t_stacks *st, t_sortinfo *si);
 void		sort2bottom(t_sortsize *ss, t_stacks *st);
+
+char		*get_next_line(int fd);
 
 #endif

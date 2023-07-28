@@ -1,27 +1,40 @@
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
+
 NAME = push_swap
-SRCS = checker.c conquer.c initstructs.c inputcheck.c maketri.c merge.c nodeutil.c \
-		operators.c realsort.c sort.c trishape.c util.c hardsort.c sort2-6.c sortutil.c \
-		inputcheck2.c operators2.c util2.c
+SRCS =	$(wildcard ./src/*.c)
 OBJECTS = $(SRCS:.c=.o)
-INC = -I./
+INC = -I./src/
+
+BNSNAME = checker
+BNSSRCS = $(wildcard ./bnssrc/*.c)
+BNSOBJECTS = $(BNSSRCS:.c=.o)
+GNLINC = -I./bnssrc/
+
 RMF = rm -f
 
 all : $(NAME)
 
+bonus : $(BNSNAME)
+
 $(NAME) : $(OBJECTS)
 	$(CC) $(CFLAGS) -o $@ $^
 
-%.o : %.c
+$(BNSNAME) : $(BNSOBJECTS)
+	$(CC) $(CFLAGS) -o $@ $^
+
+src/%.o : %.c
 	$(CC) $(CFLAGS) -c $< $(INC)
 
+bnssrc/%.o : %.c
+	$(CC) $(CFLAGS) -c $< $(INC) $(GNLINC)
+
 clean :
-	$(RMF) $(OBJECTS)
+	$(RMF) $(OBJECTS) $(BNSOBJECTS)
 
 fclean : clean
-	$(RMF) $(NAME) 
+	$(RMF) $(NAME) $(BNSNAME)
 
 re : fclean all
 
-.PHONY : clean fclean all re
+.PHONY : clean fclean all re bonus
