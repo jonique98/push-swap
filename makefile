@@ -13,7 +13,7 @@ GNLINC = -I./bnssrc/
 
 RMF = rm -f
 
-all : $(NAME)
+all : $(NAME) $(BNSNAME)
 
 bonus : $(BNSNAME)
 
