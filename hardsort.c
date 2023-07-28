@@ -3,74 +3,75 @@
 /*                                                        :::      ::::::::   */
 /*   hardsort.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sumjo <sumjo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: josumin <josumin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 17:47:54 by sumjo             #+#    #+#             */
-/*   Updated: 2023/07/27 23:35:55 by sumjo            ###   ########.fr       */
+/*   Updated: 2023/07/28 16:28:28 by josumin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pushswap.h"
 
-void	hardsort4(sortsize *ss, stacks *stacks, sortinfo *sortinfo)
+void	hardsort4(t_sortsize *ss, t_stacks *stacks, t_sortinfo *sortinfo)
 {
 	ss->s1 = 2;
 	ss->s2 = 1;
 	ss->s3 = 1;
-	if (peek(ss->target->bottom) < peek(ss->target->bottom->next))
+	if (peek(ss->target->b) < peek(ss->target->b->next))
 		swap(ss->target, stacks);
-	realuppersort(ss, stacks, ss->target, ss->src, sortinfo);
+	realuppersort(ss, stacks, sortinfo);
 }
 
-void	hardsort5(sortsize *ss, stacks *stacks, sortinfo *sortinfo)
+void	hardsort5(t_sortsize *ss, t_stacks *stacks, t_sortinfo *sortinfo)
 {
 	ss->s1 = 2;
 	ss->s2 = 2;
 	ss->s3 = 1;
-	if (peek(ss->target->bottom) < peek(ss->target->bottom->next))
+	if (peek(ss->target->b) < peek(ss->target->b->next))
 		swap(ss->target, stacks);
-	if (peek(ss->src->top) < peek(ss->src->top->prev))
+	if (peek(ss->src->t) < peek(ss->src->t->prev))
 		swap(ss->src, stacks);
-	realuppersort(ss, stacks, ss->target, ss->src, sortinfo);
+	realuppersort(ss, stacks, sortinfo);
 }
 
-void hardsort3(stacks *stacks, node *node)
+void	hardsort3(t_stacks *stacks, t_node *node)
 {
-	if (peek(node) > peek(node->prev) && peek(node->prev) > peek(node->prev->prev))
+	if (peek(node) > peek(node->prev)
+		&& peek(node->prev) > peek(node->prev->prev))
 	{
 		swap(stacks->a, stacks);
-		reverse(stacks->a, stacks);
-		reverse(stacks->a, stacks);
+		re(reverse, stacks->a, stacks);
 	}
-	else if (peek(node) > peek(node->prev->prev) && peek(node->prev) < peek(node->prev->prev))
+	else if (peek(node) > peek(node->prev->prev)
+		&& peek(node->prev) < peek(node->prev->prev))
 		reverse(stacks->a, stacks);
-	else if (peek(node->prev) > peek(node) && peek(node) > peek(node->prev->prev))
-	{
-		reverse(stacks->a, stacks);
-		reverse(stacks->a, stacks);
-	}
-	else if ((peek(node->prev) > peek(node->prev->prev) && peek(node) < peek(node->prev->prev)))
+	else if (peek(node->prev) > peek(node)
+		&& peek(node) > peek(node->prev->prev))
+		re(reverse, stacks->a, stacks);
+	else if ((peek(node->prev) > peek(node->prev->prev)
+			&& peek(node) < peek(node->prev->prev)))
 	{
 		rreverse(stacks->a, stacks);
 		swap(stacks->a, stacks);
 		reverse(stacks->a, stacks);
 	}
-	else if (peek(node->prev->prev) > peek(node) && peek(node->prev) < peek(node))
+	else if (peek(node->prev->prev) > peek(node)
+		&& peek(node->prev) < peek(node))
 		swap(stacks->a, stacks);
 }
 
-void	hardsorting(stacks *stacks, sortinfo *sortinfo)
+void	hardsorting(t_stacks *stacks, t_sortinfo *sortinfo)
 {
-	sortsize	*ss;
+	t_sortsize	*ss;
 
 	ss = 0;
 	if (stacks->a->size == 2)
 	{
-		if (peek(stacks->a->top) > peek(stacks->a->top->prev))
+		if (peek(stacks->a->t) > peek(stacks->a->t->prev))
 			swap(stacks->a, stacks);
 	}
 	else if (stacks->a->size == 3)
-		hardsort3(stacks, stacks->a->top);
+		hardsort3(stacks, stacks->a->t);
 	else
 	{
 		ss = init_sortsize(ss, stacks, sortinfo, 2);

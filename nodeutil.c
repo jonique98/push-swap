@@ -1,71 +1,83 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   nodeutil.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: josumin <josumin@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/28 15:44:45 by josumin           #+#    #+#             */
+/*   Updated: 2023/07/28 16:26:20 by josumin          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pushswap.h"
 
-void	init_node(int value, node *node)
+void	init_node(int value, t_node *node)
 {
-	node->value = value;
+	node->v = value;
 	node->next = 0;
 	node->prev = 0;
 }
 
-int	insertFirst(int a, stack *s)
+int	insertfirst(int a, t_stack *s)
 {
-	node	*n;
+	t_node	*n;
 
-	n = malloc(sizeof(node));
+	n = malloc(sizeof(t_node));
 	if (!n)
 		return (0);
 	init_node(a, n);
 	if (s->size == 0)
 	{
-		s->top = n;
-		s->bottom = n;
+		s->t = n;
+		s->b = n;
 		s->size++;
 	}
 	else
 	{
-		s->bottom->prev = n;
-		n->next = s->bottom;
-		n->prev = s->top;
-		s->top->next = n;
-		s->bottom = n;
+		s->b->prev = n;
+		n->next = s->b;
+		n->prev = s->t;
+		s->t->next = n;
+		s->b = n;
 		s->size++;
 	}
 	return (1);
 }
 
-int	insert(int a, stack *s)
+int	insert(int a, t_stack *s)
 {
-	node	*n;
+	t_node	*n;
 
-	n = malloc(sizeof(node));
+	n = malloc(sizeof(t_node));
 	if (!n)
 		return (0);
 	init_node(a, n);
 	if (s->size == 0)
 	{
-		s->top = n;
-		s->bottom = n;
+		s->t = n;
+		s->b = n;
 		s->size++;
 	}
 	else
 	{
-		s->top->next = n;
-		n->prev = s->top;
-		n->next = s->bottom;
-		s->bottom->prev = n;
-		s->top = n;
+		s->t->next = n;
+		n->prev = s->t;
+		n->next = s->b;
+		s->b->prev = n;
+		s->t = n;
 		s->size++;
 	}
 	return (1);
 }
 
-void	pop(stack *s)
+void	pop(t_stack *s)
 {
-	node	*temp;
+	t_node	*temp;
 
 	if (s->size == 0)
 		return ;
-	temp = s->top;
+	temp = s->t;
 	s->size--;
 	if (s->size == 1)
 	{
@@ -77,6 +89,6 @@ void	pop(stack *s)
 		temp->next->prev = temp->prev;
 		temp->prev->next = temp->next;
 	}
-	s->top = temp->prev;
+	s->t = temp->prev;
 	free(temp);
 }

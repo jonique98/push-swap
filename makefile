@@ -1,7 +1,9 @@
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 NAME = push_swap
-SRCS = checker.c conquer.c initstructs.c inputcheck.c maketri.c merge.c nodeutil.c operators.c realsort.c sort.c trishape.c util.c hardsort.c
+SRCS = checker.c conquer.c initstructs.c inputcheck.c maketri.c merge.c nodeutil.c \
+		operators.c realsort.c sort.c trishape.c util.c hardsort.c sort2-6.c sortutil.c \
+		inputcheck2.c operators2.c util2.c
 OBJECTS = $(SRCS:.c=.o)
 INC = -I./
 RMF = rm -f
@@ -22,4 +24,4 @@ fclean : clean
 
 re : fclean all
 
-.PHONY : claen fclaen all re
+.PHONY : clean fclean all re

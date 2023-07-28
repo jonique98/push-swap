@@ -1,40 +1,54 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   checker.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: josumin <josumin@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/28 15:40:49 by josumin           #+#    #+#             */
+/*   Updated: 2023/07/28 16:48:01 by josumin          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pushswap.h"
 
-void free_all_error(stacks *stacks, sortinfo *sortinfo, sortsize *sortsize)
+void	free_all_error(t_stacks *st, t_sortinfo *si, t_sortsize *ss)
+{
+	if (si != 0)
+	{
+		free(si->mergesize);
+		free(si->trishape);
+		free(si);
+	}
+	if (ss != 0)
+		free(ss);
+	error(0, 0, 0);
+	free_stacks(st);
+}
+
+void	free_all(t_stacks *stacks, t_sortinfo *sortinfo, t_sortsize *sortsize)
 {
 	if (sortinfo != 0)
 	{
-		free(sortinfo->mergeSize);
-		free(sortinfo->triShape);
+		if (sortinfo->mergesize != 0)
+			free(sortinfo->mergesize);
+		if (sortinfo->trishape != 0)
+			free(sortinfo->trishape);
 		free(sortinfo);
 	}
 	if (sortsize != 0)
 		free(sortsize);
-	error(0,0,0);
 	free_stacks(stacks);
 }
 
-void free_all(stacks *stacks, sortinfo *sortinfo, sortsize *sortsize)
+void	free_stacks(t_stacks *stacks)
 {
-	if (sortinfo != 0)
-	{
-		free(sortinfo->mergeSize);
-		free(sortinfo->triShape);
-		free(sortinfo);
-	}
-	if (sortsize != 0)
-		free(sortsize);
-	free_stacks(stacks);
-}
-
-void free_stacks(stacks *stacks)
-{
-	node	*temp;
-	node	*freenode;
+	t_node	*temp;
+	t_node	*freenode;
 	int		i;
 
 	i = -1;
-	temp = stacks->a->top;
+	temp = stacks->a->t;
 	while (++i < stacks->a->size)
 	{
 		freenode = temp;
@@ -42,7 +56,7 @@ void free_stacks(stacks *stacks)
 		free(freenode);
 	}
 	i = -1;
-	temp = stacks->b->top;
+	temp = stacks->b->t;
 	while (++i < stacks->b->size)
 	{
 		freenode = temp;
@@ -56,24 +70,18 @@ void free_stacks(stacks *stacks)
 	exit(0);
 }
 
-void leak()
-{
-	system("leaks push_swap");
-}
-
 void	error(void *p1, void *p2, void *p3)
 {
 	free(p1);
 	free(p2);
 	free(p3);
 	write(1, "error\n", 6);
-	exit(0);
 }
 
 int	main(int ac, char **av)
 {
-	stacks		*st;
-	sortinfo	*si;
+	t_stacks		*st;
+	t_sortinfo		*si;
 
 	if (ac < 2)
 		error(0, 0, 0);
@@ -81,18 +89,13 @@ int	main(int ac, char **av)
 	si = init_sortinfo(st);
 	if (!check(av, st))
 		free_all_error(st, si, 0);
-	// for (int i = 0; i < st->a->size; i++)
-	// {
-	// 	printf("%d", st->a->top->value);
-	// 	st->a->top = st->a->top->prev;
-	// }
 	if (!is_sorting(st->a))
 	{
 		if (st->a->size < 6)
 			hardsorting(st, si);
 		else
 		{
-			mergeSize_and_triShape(st->a->size, si, st);
+			mergesize_and_trishape(st->a->size, si, st);
 			make_tri(si, st);
 			move(si, st);
 		}

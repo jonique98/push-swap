@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   maketri.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: josumin <josumin@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/28 15:45:25 by josumin           #+#    #+#             */
+/*   Updated: 2023/07/28 16:13:59 by josumin          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pushswap.h"
 
-void	make_tri(sortinfo *sortinfo, stacks *stacks)
+void	make_tri(t_sortinfo *sortinfo, t_stacks *stacks)
 {
 	int			i;
 	int			len;
-	sortsize	*ss;
+	t_sortsize	*ss;
 
 	ss = 0;
 	len = stacks->a->size;
@@ -19,23 +31,23 @@ void	make_tri(sortinfo *sortinfo, stacks *stacks)
 	i = -1;
 	while (++i < sortinfo->len)
 	{
-		ss->size = sortinfo->mergeSize[i];
-		ss->shape = sortinfo->triShape[i];
+		ss->size = sortinfo->mergesize[i];
+		ss->shape = sortinfo->trishape[i];
 		sorting(stacks, ss, sortinfo);
 	}
 	free(ss);
 }
 
-void	sorting(stacks *stacks, sortsize *ss, sortinfo *sortinfo)
+void	sorting(t_stacks *stacks, t_sortsize *ss, t_sortinfo *sortinfo)
 {
 	if (ss->size < 3)
 		sort2(ss, stacks, sortinfo, 1);
 	else if (ss->size == 3)
-		sort3(ss,  stacks, sortinfo);
+		sort3(ss, stacks, sortinfo);
 	else if (ss->size == 4)
-		sort4(ss,  stacks, sortinfo);
+		sort4(ss, stacks, sortinfo);
 	else if (ss->size == 5)
-		sort5 (ss,  stacks, sortinfo);
+		sort5 (ss, stacks, sortinfo);
 	else if (ss->size == 6)
-	    sort6 (ss, stacks, sortinfo);
+		sort6 (ss, stacks, sortinfo);
 }

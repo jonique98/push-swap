@@ -1,138 +1,47 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sort.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: josumin <josumin@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/28 15:52:13 by josumin           #+#    #+#             */
+/*   Updated: 2023/07/28 16:32:04 by josumin          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pushswap.h"
 
-node	*max(node *a, node *b, node *c)
+t_node	*max(t_node *a, t_node *b, t_node *c)
 {
-	node	*max;
+	t_node	*max;
 
-	if (a != 0 && a->value > b->value)
+	if (a != 0 && a->v > b->v)
 		max = a;
 	else
 		max = b;
-	if (max->value < c->value)
+	if (max->v < c->v)
 		return (c);
 	else
 		return (max);
 }
 
-node *min(node *a, node *b, node *c)
+t_node	*min(t_node *a, t_node *b, t_node *c)
 {
-	node *min;
+	t_node	*min;
 
-	if (a != 0 && b != 0 && a->value < b->value)
+	if (a != 0 && b != 0 && a->v < b->v)
 		min = a;
 	else
 		min = b;
-	if (min->value > c->value)
+	if (min->v > c->v)
 		return (c);
 	else
 		return (min);
 }
 
-void	sort3(sortsize *ss, stacks *stacks, sortinfo *sortinfo)
+void	re(void (*f)(t_stack *s, t_stacks *st), t_stack *s, t_stacks *st)
 {
-	push(ss, stacks, sortinfo);
-	reverse(ss->target, stacks);
-	ss->s1 = 1;
-	ss->s2 = 1;
-	ss->s3 = 1;
-	if (ss->shape == 1)
-		realuppersort(ss, stacks, ss->target, ss->src, sortinfo);
-	else if (ss->shape == 0)
-		reallowersort(ss, stacks, ss->target, ss->src, sortinfo);
-	write(1, "here", 4);
+	f(s, st);
+	f(s, st);
 }
-
-void	sort4(sortsize *ss, stacks *stacks, sortinfo *sortinfo)
-{
-	push(ss, stacks, sortinfo);
-	reverse(ss->target, stacks);
-
-	ss->s1 = 1;
-	ss->s2 = 2;
-	ss->s3 = 1;
-	if (ss->shape == 1)
-	{
-		if (peek(ss->src->top) < peek(ss->src->top->prev))
-			swap(ss->src, stacks);
-		realuppersort(ss, stacks, ss->target, ss->src, sortinfo);
-	}
-	else if (ss->shape == 0)
-	{
-		if (peek(ss->src->top) > peek(ss->src->top->prev))
-			swap(ss->src, stacks);
-		reallowersort(ss, stacks, ss->target, ss->src, sortinfo);
-	}
-}
-
-void	sort6(sortsize *ss, stacks *stacks, sortinfo *sortinfo)
-{
-	ss->s1 = 2;
-	ss->s2 = 2;
-	ss->s3 = 2;
-
-		sort2(ss, stacks, sortinfo, 1);
-		reverse(ss->target, stacks);
-		reverse(ss->target, stacks);
-		sort2(ss, stacks, sortinfo, 2);
-		if(ss->shape == 1)
-		{
-			if (peek(ss->src->bottom) < peek(ss->src->bottom->next))
-			{
-				rreverse(ss->src, stacks);
-				rreverse(ss->src, stacks);
-				swap(ss->src, stacks);
-				reverse(ss->src, stacks);
-				reverse(ss->src, stacks);
-			}
-			realuppersort(ss, stacks, ss->target, ss->src, sortinfo);
-		}
-		else
-		{
-			if(peek(ss->src->bottom) > peek(ss->src->bottom->next))
-			{
-				rreverse(ss->src, stacks);
-				rreverse(ss->src, stacks);
-				swap(ss->src, stacks);
-				reverse(ss->src, stacks);
-				reverse(ss->src, stacks);
-			}
-			reallowersort(ss, stacks, ss->target, ss->src, sortinfo);
-		}
-}
-
-void	sort5(sortsize *ss, stacks *stacks, sortinfo *sortinfo)
-{  
-	ss->s1 = 2;
-	ss->s2 = 2;
-	ss->s3 = 1;
-
-	sort2(ss, stacks, sortinfo, 1);
-	reverse(ss->target, stacks);
-	reverse(ss->target, stacks);
-	sort2(ss, stacks, sortinfo, 2);
-	if (ss->shape == 1)
-		realuppersort(ss, stacks, ss->target, ss->src, sortinfo);
-	else
-		reallowersort(ss, stacks, ss->target, ss->src, sortinfo);
-}
-
-void	sort2(sortsize *ss, stacks *stacks, sortinfo *sortinfo, int a)
-{
-	if (ss->shape == 1)
-	{
-		if (ss->src->top->value < ss->src->top->prev->value)
-			swap(ss->src, stacks);
-	}
-	else if (ss->shape == 0)
-	{
-		if (ss->src->top->value > ss->src->top->prev->value)
-			swap(ss->src, stacks);
-	}
-	if (a == 1)
-	{
-		push(ss, stacks, sortinfo);
-		push(ss, stacks, sortinfo);
-	}
-}
-
-

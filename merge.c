@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   merge.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sumjo <sumjo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: josumin <josumin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 17:33:29 by sumjo             #+#    #+#             */
-/*   Updated: 2023/07/27 17:44:05 by sumjo            ###   ########.fr       */
+/*   Updated: 2023/07/28 16:14:31 by josumin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	*make_mergesize_arr(int *mergeSize, int *arr, int *len)
 	return (returnarr);
 }
 
-int	merge(int size, sortinfo *sortinfo, int *len, stacks *stacks)
+int	merge(int size, t_sortinfo *sortinfo, int *len, t_stacks *stacks)
 {
 	int	arr[3];
 
@@ -54,14 +54,14 @@ int	merge(int size, sortinfo *sortinfo, int *len, stacks *stacks)
 		merge(arr[2], sortinfo, len, stacks);
 	if (arr[0] <= 5 || arr[1] <= 5 || arr[2] <= 5)
 	{
-		sortinfo->mergeSize = make_mergesize_arr(sortinfo->mergeSize, arr, len);
-		if (!sortinfo->mergeSize)
+		sortinfo->mergesize = make_mergesize_arr(sortinfo->mergesize, arr, len);
+		if (!sortinfo->mergesize)
 			free_all(stacks, sortinfo, 0);
 	}
 	return (1);
 }
 
-int	mergeSize_and_triShape(int size, sortinfo *sortinfo, stacks *stacks)
+int	mergesize_and_trishape(int size, t_sortinfo *sortinfo, t_stacks *stacks)
 {
 	int	len;
 	int	trilen;
@@ -72,7 +72,7 @@ int	mergeSize_and_triShape(int size, sortinfo *sortinfo, stacks *stacks)
 	sortinfo->len = len;
 	while (trilen != len)
 	{
-		make_triShape(trilen, sortinfo, stacks);
+		make_trishape(trilen, sortinfo, stacks);
 		if (trilen == 0)
 			trilen = 3;
 		else

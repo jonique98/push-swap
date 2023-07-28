@@ -1,14 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   conquer.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: josumin <josumin@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/28 15:40:56 by josumin           #+#    #+#             */
+/*   Updated: 2023/07/28 16:45:54 by josumin          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pushswap.h"
 
-void	move(sortinfo *sortinfo, stacks *stacks)
+void	move(t_sortinfo *sortinfo, t_stacks *stacks)
 {
 	int			size;
 	int			i;
-	sortsize	*ss;
+	t_sortsize	*ss;
 
 	ss = 0;
 	if (stacks->a->size == 0)
-		ss = init_sortsize(ss, stacks, sortinfo ,1);
+		ss = init_sortsize(ss, stacks, sortinfo, 1);
 	else
 		ss = init_sortsize(ss, stacks, sortinfo, 2);
 	while (!is_sorting(stacks->a))
@@ -16,21 +28,21 @@ void	move(sortinfo *sortinfo, stacks *stacks)
 		i = -1;
 		size = 0;
 		while (++i < sortinfo->len / 3)
-			size += sortinfo->mergeSize[sortinfo->len - i - 1];
+			size += sortinfo->mergesize[sortinfo->len - i - 1];
 		while (0 <= --size)
 			push(ss, stacks, sortinfo);
 		realsort(sortinfo, ss, stacks);
-		sortinfo->triShape = resettrishape(stacks, sortinfo, ss);
-		sortinfo->mergeSize = resetmergesize(stacks, sortinfo, ss);
+		sortinfo->trishape = resettrishape(stacks, sortinfo, ss);
+		sortinfo->mergesize = resetmergesize(stacks, sortinfo, ss);
 		sortinfo->len = sortinfo->len / 3;
 		switchsortsize(ss, stacks);
 	}
 	free(ss);
 }
 
-int	*resetmergesize(stacks *stacks, sortinfo *sortinfo, sortsize *ss)
+int	*resetmergesize(t_stacks *stacks, t_sortinfo *sortinfo, t_sortsize *ss)
 {
-	int *arr;
+	int	*arr;
 	int	i;
 	int	len;
 
@@ -41,18 +53,18 @@ int	*resetmergesize(stacks *stacks, sortinfo *sortinfo, sortsize *ss)
 	i = -1;
 	while (++i < len / 3)
 	{
-		arr[i] = sortinfo->mergeSize[i]; 
-		arr[i] += sortinfo->mergeSize[len - (len / 3) - i - 1];
-		arr[i] += sortinfo->mergeSize[len - i - 1];
+		arr[i] = sortinfo->mergesize[i];
+		arr[i] += sortinfo->mergesize[len - (len / 3) - i - 1];
+		arr[i] += sortinfo->mergesize[len - i - 1];
 	}
-	free(sortinfo->mergeSize);
+	free(sortinfo->mergesize);
 	return (arr);
 }
 
-int	*resettrishape(stacks *stacks, sortinfo *sortinfo, sortsize *ss)
+int	*resettrishape(t_stacks *stacks, t_sortinfo *sortinfo, t_sortsize *ss)
 {
-	int *arr;
-	int i;
+	int	*arr;
+	int	i;
 
 	i = 0;
 	arr = malloc(sizeof(int) * sortinfo->len / 3);
@@ -60,35 +72,35 @@ int	*resettrishape(stacks *stacks, sortinfo *sortinfo, sortsize *ss)
 		free_all_error(stacks, sortinfo, ss);
 	while (i < sortinfo->len / 3)
 	{
-		arr[i] = sortinfo->triShape[i];
+		arr[i] = sortinfo->trishape[i];
 		i++;
 	}
-	free(sortinfo->triShape);
+	free(sortinfo->trishape);
 	return (arr);
 }
 
-sortsize	*init_sortsize(sortsize *p, stacks *stacks, sortinfo *sortinfo, int a)
+t_sortsize	*init_sortsize(t_sortsize *p, t_stacks *st, t_sortinfo *si, int a)
 {
-	sortsize	*ss;
+	t_sortsize	*ss;
 
-	ss = malloc(sizeof(sortsize));
+	ss = malloc(sizeof(t_sortsize));
 	if (!ss)
-		free_all_error(stacks, sortinfo, p);
+		free_all_error(st, si, p);
 	if (a == 1)
 	{
-		ss->target = stacks->a;
-		ss->src = stacks->b;
+		ss->target = st->a;
+		ss->src = st->b;
 	}
 	else if (a == 2)
 	{
-		ss->target = stacks->b;
-		ss->src = stacks->a;
+		ss->target = st->b;
+		ss->src = st->a;
 	}
 	free(p);
 	return (ss);
 }
 
-void	switchsortsize(sortsize *ss, stacks *stacks)
+void	switchsortsize(t_sortsize *ss, t_stacks *stacks)
 {
 	if (ss->target == stacks->a)
 	{
