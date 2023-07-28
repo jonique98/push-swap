@@ -6,7 +6,7 @@
 /*   By: sumjo <sumjo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 15:40:49 by josumin           #+#    #+#             */
-/*   Updated: 2023/07/28 23:27:15 by sumjo            ###   ########.fr       */
+/*   Updated: 2023/07/28 23:44:17 by sumjo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,10 @@ int	main(int ac, char **av)
 	{
 		op = get_next_line(0);
 		if (op == 0 || op[0] == '\n')
+		{
+			free(op);
 			break ;
+		}
 		do_op(op, st);
 		free(op);
 	}

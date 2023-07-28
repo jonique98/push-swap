@@ -6,7 +6,7 @@
 /*   By: sumjo <sumjo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 03:33:49 by josumin           #+#    #+#             */
-/*   Updated: 2023/07/28 23:37:46 by sumjo            ###   ########.fr       */
+/*   Updated: 2023/07/28 23:47:59 by sumjo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,6 @@ t_stacks	*init_stacks(void);
 void		free_all_error(t_stacks *st, t_sortinfo *si, t_sortsize *sortsize);
 void		free_all(t_stacks *st, t_sortinfo *si, t_sortsize *ss);
 void		free_stacks(t_stacks *stacks);
-void		error(void *p1, void *p2, void *p3);
-void		leak(void);
 
 //inputcheck
 int			num_len(char *arr);

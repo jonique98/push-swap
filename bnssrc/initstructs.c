@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initstructs.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josumin <josumin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sumjo <sumjo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 15:36:58 by josumin           #+#    #+#             */
-/*   Updated: 2023/07/28 16:13:13 by josumin          ###   ########.fr       */
+/*   Updated: 2023/07/28 23:48:48 by sumjo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_stacks	*init_stacks(void)
 
 	st = malloc(sizeof(t_stacks));
 	if (!st)
-		error(0, 0, 0);
+		free_all_error(st, 0, 0);
 	st->a = init_stack();
 	st->b = init_stack();
 	if (!st->a || !st->b)

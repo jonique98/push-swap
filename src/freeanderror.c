@@ -6,7 +6,7 @@
 /*   By: sumjo <sumjo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 20:15:21 by sumjo             #+#    #+#             */
-/*   Updated: 2023/07/28 23:24:50 by sumjo            ###   ########.fr       */
+/*   Updated: 2023/07/28 23:56:29 by sumjo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	free_all_error(t_stacks *st, t_sortinfo *si, t_sortsize *ss)
 	}
 	if (ss != 0)
 		free(ss);
-	error(0, 0, 0);
+	write(1, "Error\n", 6);
 	if (st != 0)
 		free_stacks(st);
 	else
@@ -74,12 +74,4 @@ void	free_stacks(t_stacks *stacks)
 	free(stacks->operations);
 	free(stacks);
 	exit(0);
-}
-
-void	error(void *p1, void *p2, void *p3)
-{
-	free(p1);
-	free(p2);
-	free(p3);
-	write(1, "error\n", 6);
 }

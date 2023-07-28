@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   merge.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josumin <josumin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sumjo <sumjo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 17:33:29 by sumjo             #+#    #+#             */
-/*   Updated: 2023/07/28 16:14:31 by josumin          ###   ########.fr       */
+/*   Updated: 2023/07/28 23:53:12 by sumjo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	merge(int size, t_sortinfo *sortinfo, int *len, t_stacks *stacks)
 	{
 		sortinfo->mergesize = make_mergesize_arr(sortinfo->mergesize, arr, len);
 		if (!sortinfo->mergesize)
-			free_all(stacks, sortinfo, 0);
+			free_all_error(stacks, sortinfo, 0);
 	}
 	return (1);
 }
